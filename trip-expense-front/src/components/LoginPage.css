@@ -1,0 +1,75 @@
+.lp-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  background-color: #2d2d2d;
+}
+
+.lp-card {
+  display: flex;
+  width: 90%;
+  height: 80%;
+  border-radius: 12px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.lp-image {
+  width: 50%;
+  background: url('./assets/Loginimage.jpeg') center/cover;
+}
+
+.lp-form {
+  width: 50%;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.lp-input-group {
+  margin-top: 15px;
+}
+
+.lp-input-field {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.lp-button {
+  margin-top: 50px;
+  padding: 10px;
+  background-color: #00ffff;
+  font-weight: bold;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: auto;
+  padding: 10px 20px; 
+}
+
+.lp-button:hover {
+  background-color: #00cccc;
+}
+
+.lp-register-text {
+  margin-top: 10px;
+  font-size: 18px;
+  text-align: center;
+}
+
+.lp-register-link {
+  color: #00ffff;
+  text-decoration: none;
+}
+
+.lp-register-link:hover {
+  text-decoration: underline;
+}

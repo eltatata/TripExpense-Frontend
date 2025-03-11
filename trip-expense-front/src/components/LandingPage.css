@@ -1,0 +1,44 @@
+.landing__page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.navbar{
+  margin-top: 20px;
+  margin-bottom: 0px;
+}
+
+.hero{
+  margin-top: 5px;
+}
+.search__div {
+  position: absolute;
+  top: 100vh; 
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%; 
+  max-width: 1200px; 
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.destinations__div {
+  width: 80%; 
+  max-width: 1200px;
+  margin-top: 120px; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.flightshotels__div{
+  width: 76.5%; 
+  max-width: 1200px;
+  align-items: center;
+  margin-top: 40px;
+}
