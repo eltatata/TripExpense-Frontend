@@ -1,25 +1,12 @@
-body {
-    font-family: 'Montserrat', sans-serif;
+.su-page {
     background-color: #404040;
+    height: 100vh; 
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
 }
 
-h2 {
-    font-family: 'TradeGothic Bold', sans-serif;
-    font-size: 28px;
-    color: black;
-}
-
-p {
-    font-size: 14px;
-    color: #595959;
-}
-
-.signup-container {
+.su-container {
     display: flex;
     max-width: 1200px;
     background-color: #ffffff;
@@ -28,7 +15,7 @@ p {
     box-shadow: 0 4px 10px rgba(0, 247, 255, 0.4);
 }
 
-.images {
+.su-images {
     flex: 1;
     position: relative;
     display: flex;
@@ -37,19 +24,19 @@ p {
     overflow: hidden;
 }
 
-.images img {
+.su-images img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.dots {
+.su-dots {
     position: absolute;
     bottom: 10px;
     display: flex;
 }
 
-.dot {
+.su-dot {
     width: 8px;
     height: 8px;
     margin: 0 5px;
@@ -59,27 +46,23 @@ p {
     transition: background-color 0.3s;
 }
 
-.dot.active {
+.su-dot.su-active {
     background-color: #00ffff;
 }
 
-.form-container {
+.su-form-container {
     flex: 1;
     padding: 40px;
     text-align: left;
 }
 
-.form__login {
-    text-align: center;
-}
-
-.input-group {
+.su-input-group {
     display: flex;
     gap: 10px;
     margin-bottom: 15px;
 }
 
-.input-group input {
+.su-input-group input {
     flex: 1;
     padding: 12px;
     color: #404040;
@@ -89,10 +72,10 @@ p {
     font-size: 14px;
 }
 
-button {
+.su-button {
     width: 100%;
     padding: 12px;
-    background-color: #00cccc;
+    background-color: #00ffff;
     border: none;
     color: #ffffff;
     font-weight: bold;
@@ -101,28 +84,32 @@ button {
     transition: background-color 0.3s;
 }
 
-button:hover {
-    background-color: #00ffff;
+.su-button:hover {
+    background-color: #00cccc;
 }
 
-a {
-    color: #00cccc;
+.su-login-text {
+    text-align: center;
+    font-size: 14px;
+}
+
+.su-login-link {
+    color: #00ffff;
     text-decoration: none;
     font-weight: bold;
 }
 
-a:hover {
+.su-login-link:hover {
     text-decoration: underline;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
-    .signup-container {
+    .su-container {
         flex-direction: column;
         width: 90%;
     }
 
-    .images {
+    .su-images {
         height: 250px;
     }
 }

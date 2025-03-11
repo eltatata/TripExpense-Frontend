@@ -17,43 +17,46 @@ const SignUpPage = () => {
     }, []);
 
     return (
-        <div className="signup-container">
-            <div className="images">
-                <img src={images[currentIndex]} alt="Fondo" />
-                <div className="dots">
-                    {images.map((_, index) => (
-                        <span
-                            key={index}
-                            className={index === currentIndex ? "dot active" : "dot"}
-                            onClick={() => setCurrentIndex(index)}
-                        ></span>
-                    ))}
+        <div className="su-page">
+            <div className="su-container">
+                <div className="su-images">
+                    <img src={images[currentIndex]} alt="Fondo" />
+                    <div className="su-dots">
+                        {images.map((_, index) => (
+                            <span
+                                key={index}
+                                className={index === currentIndex ? "su-dot su-active" : "su-dot"}
+                                onClick={() => setCurrentIndex(index)}
+                            ></span>
+                        ))}
+                    </div>
                 </div>
-            </div>
 
-            {/* Formulario de Registro */}
-            <div className="form-container">
-                <h2>Regístrate</h2>
-                <p>Completa el formulario para crear tu cuenta.</p>
-                <form>
-                    <div className="input-group">
-                        <input type="text" name="nombre" placeholder="Nombre" />
-                    </div>
-                    <div className="input-group">
-                        <input type="text" name="apellido" placeholder="Apellido" />
-                    </div>
-                    <div className="input-group">
-                        <input type="email" name="email" placeholder="Correo electrónico" />
-                    </div>
-                    <div className="input-group">
-                        <input type="password" name="password" placeholder="Contraseña" />
-                    </div>
-                    <div className="input-group">
-                        <input type="password" name="confirmPassword" placeholder="Confirmar contraseña" />
-                    </div>
-                    <button type="submit">Crear cuenta</button>
-                    <p className="form__login">¿Ya tienes una cuenta? <a href="/login">Iniciar sesión</a></p>
-                </form>
+                <div className="su-form-container">
+                    <h2>Regístrate</h2>
+                    <p>Completa el formulario para crear tu cuenta.</p>
+                    <form>
+                        <div className="su-input-group">
+                            <input type="text" name="nombre" placeholder="Nombre" />
+                        </div>
+                        <div className="su-input-group">
+                            <input type="text" name="apellido" placeholder="Apellido" />
+                        </div>
+                        <div className="su-input-group">
+                            <input type="email" name="email" placeholder="Correo electrónico" />
+                        </div>
+                        <div className="su-input-group">
+                            <input type="password" name="password" placeholder="Contraseña" />
+                        </div>
+                        <div className="su-input-group">
+                            <input type="password" name="confirmPassword" placeholder="Confirmar contraseña" />
+                        </div>
+                        <button type="submit" className="su-button">Crear cuenta</button>
+                        <p className="su-login-text">
+                            ¿Ya tienes una cuenta? <a href="/login" className="su-login-link">Iniciar sesión</a>
+                        </p>
+                    </form>
+                </div>
             </div>
         </div>
     );
