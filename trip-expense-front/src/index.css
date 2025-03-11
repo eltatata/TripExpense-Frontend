@@ -1,14 +1,16 @@
-body {
+html, body, #root {
+  width: 100%;
+  height: 100%;
   margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: whitesmoke;
 }
-
-/* Aplica Trade Gothic a todos los encabezados */
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Open Sans', sans-serif;
 }
-
-/* Aplica Montserrat a todos los párrafos */
 p {
   font-family: 'Montserrat', sans-serif;
 }
