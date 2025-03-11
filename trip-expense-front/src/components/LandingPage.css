@@ -35,3 +35,10 @@
   flex-direction: column;
   align-items: center;
 }
+
+.flightshotels__div{
+  width: 76.5%; 
+  max-width: 1200px;
+  align-items: center;
+  margin-top: 40px;
+}

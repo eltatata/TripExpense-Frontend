@@ -1,7 +1,19 @@
 body {
   margin: 0;
-  font-family: 'Mon', sans-serif;
   background: whitesmoke;
 }
 
+/* Aplica Trade Gothic a todos los encabezados */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* Aplica Montserrat a todos los párrafos */
+p {
+  font-family: 'Montserrat', sans-serif;
+}
+
+button{
+  font-family: 'Montserrat', sans-serif;
+}
 
