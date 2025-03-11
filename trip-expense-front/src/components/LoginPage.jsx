@@ -1,4 +1,4 @@
-// LoginPage.jsx
+
 import React, { useState } from "react";
 import "./LoginPage.css";
 
@@ -9,17 +9,16 @@ const LoginPage = () => {
   return (
     <div className="login-container">
       <div className="login-card">
-        {/* Sección de Imagen */}
         <div className="login-image"></div>
         
-        {/* Sección de Formulario */}
+        
         <div className="login-form">
           <h2>Iniciar Sesión</h2>
-          <p>Ingresa tus credenciales para acceder.</p>
+          <p>Ingresa tus datos para acceder.</p>
           
-          <div className="input-group">
-            <label>Correo Electrónico</label>
+          <div className="input-group"> 
             <input 
+              placeholder ="Correo Electrónico"
               type="email" 
               value={email} 
               onChange={(e) => setEmail(e.target.value)}
@@ -28,8 +27,8 @@ const LoginPage = () => {
           </div>
 
           <div className="input-group">
-            <label>Contraseña</label>
-            <input 
+          <input 
+              placeholder="Contraseña"
               type="password" 
               value={password} 
               onChange={(e) => setPassword(e.target.value)}
