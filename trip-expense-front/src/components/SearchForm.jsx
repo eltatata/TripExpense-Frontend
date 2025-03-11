@@ -91,7 +91,7 @@ const SearchForm = () => {
           </select>
         </div>
 
-        <button className="search-button">Buscar <br/>Viajes</button>
+        <button className="search-button"><strong>Buscar <br/>Viajes</strong></button>
       </div>
     </div>
   );

@@ -20,6 +20,7 @@
     height: 40px;
     width: auto;
     cursor: pointer;
+    border-radius: 5px;
   }
   
   .nav__buttons {
@@ -32,7 +33,7 @@
   
   .nav__login__button {
     color: white;
-    background: transparent;
+    background: #404040;
     border: none;
     font-size: 16px;
     cursor: pointer;
@@ -51,7 +52,7 @@
     color: black;
     padding: 8px 15px;
     font-size: 16px;
-    border: none;
+    border: 1px solid #404040;
     border-radius: 5px;
     cursor: pointer;
     transition: 0.3s;

@@ -1,4 +1,3 @@
-/* Contenedor principal */
 .search-container {
     position: absolute;
     top: 80%;
@@ -14,11 +13,11 @@
     background: #404040;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 1);
     width: 95%;
     max-width: 1000px;
     display: grid;
-    grid-template-columns: 3fr .45fr; /* Primera parte con inputs, segunda con el botón */
+    grid-template-columns: 3fr .45fr; 
     gap: 10px;
     align-items: center;
   }
@@ -44,13 +43,11 @@
     justify-content: space-between;
   }
   
-  /* Contenedor de calendario */
   .date-picker {
     position: relative;
     width: 100%;
   }
   
-  /* Calendario emergente */
   .calendar-dropdown {
     position: absolute;
     top: 50px;
@@ -62,14 +59,12 @@
     padding: 10px;
   }
   
-  /* Contenedor de selects */
   .select-group {
     width: 100%;
     text-align: center;
     justify-content: space-between;
   }
   
-  /* Botón de búsqueda alineado a la derecha */
   .search-button {
     background-color: #00ffff;
     color: white;
