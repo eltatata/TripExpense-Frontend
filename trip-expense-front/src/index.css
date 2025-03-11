@@ -6,4 +6,16 @@ html, body, #root {
   display: flex;
   justify-content: center;
   align-items: center;
+  background: whitesmoke;
 }
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Open Sans', sans-serif;
+}
+p {
+  font-family: 'Montserrat', sans-serif;
+}
+
+button{
+  font-family: 'Montserrat', sans-serif;
+}
+
