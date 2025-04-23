@@ -1,10 +1,10 @@
 import React from "react";
-import Navbar from "./Navbar";
-import HeroSection from "./HeroSection";
-import SearchForm from "./SearchForm";
+import Navbar from "../../components/Navbar/Navbar";
+import HeroSection from "../../components/HeroSection/HeroSection";
+import SearchForm from "../../components/SearchForm/SearchForm";
 import "./LandingPage.css";
-import Destinations from "./Destinations";
-import FlightsHotels from "./FlightsHotels";
+import Destinations from "../../components/Destinations/Destinations";
+import FlightsHotels from "../../components/FlightsHotels/FlightsHotels";
 
 const LandingPage = () => {
     return (
