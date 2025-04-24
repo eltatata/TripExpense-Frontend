@@ -1,6 +1,6 @@
 import React from "react";
 import "./Destinations.css";
-import DestinationCard from "./DestinationCard";
+import DestinationCard from "../DestinationCard/DestinationCard";
 
 const destinations = [
     { city: "Estambul, Turquía", img: "../assets/Estambul.jpg" },

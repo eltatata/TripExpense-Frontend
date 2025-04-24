@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
-import LoginPage from './components/LoginPage';
-import SignUpPage from './components/SignUpPage';
-import LandingPage from './components/LandingPage';
+import LoginPage from './pages/loginPage/LoginPage.jsx'
+import SignUpPage from './pages/SignUpPage/SignUpPage.jsx';
+import LandingPage from './pages/LandingPage/LandingPage.jsx';
 
 function App() {
   return (
