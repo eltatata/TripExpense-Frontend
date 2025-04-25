@@ -1,6 +1,7 @@
 import React from "react";
 import "./Destinations.css";
 import DestinationCard from "../DestinationCard/DestinationCard";
+import { useNavigate } from "react-router-dom"; 
 
 const destinations = [
     { city: "Estambul, Turquía", img: "../assets/Estambul.jpg" },
@@ -15,6 +16,11 @@ const destinations = [
   ];
 
 const Destinations = () =>{
+    const navigate = useNavigate(); 
+  
+    const handleSignupClick = () => {
+      navigate("/signup"); 
+    };
     return (
         <section className="destinations">
             <div className="destinations__header">
@@ -22,7 +28,7 @@ const Destinations = () =>{
                     <h2>Descubre nuevos destinos</h2>
                     <p>Explora las mejores opciones para tu próximo viaje</p>
                 </div>
-                <button className="destinations__button"><strong>Descubre más</strong></button>
+                <button className="destinations__button" onClick={handleSignupClick}><strong>Descubre más</strong></button>
             </div>
             <div className="destinations__grid">
                 {destinations.map((destination, index) => (

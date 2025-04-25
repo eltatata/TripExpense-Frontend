@@ -5,8 +5,8 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 30px;
-    padding: 20px 30px;
+    height: 20px;
+    padding: 20px 20px;
     z-index: 1000;
   }
   
@@ -25,7 +25,7 @@
   
   .nav__buttons {
     position: absolute;
-    right: 70px; 
+    right: 20.5px; 
     display: flex;
     align-items: center;
     gap: 10px;
@@ -66,11 +66,59 @@
     .navbar {
       padding: 10px 15px;
     }
+    .navbar__logo {
+      left: 15px; 
+      transform: translateX(0); 
+    }
     .navbar__logo img {
       height: 30px;
     }
     .nav__buttons {
-      right: 20px; 
+      right: 15px;
     }
-  }
+    .nav__login__button,
+    .nav__signup__button {
+      padding: 6px 12px;
+      font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+      padding: 10px 10px;
+      height: 15px;
+    }
+    .navbar__logo {
+      left: 10px; 
+    }
+    .navbar__logo img {
+      height: 25px;
+    }
+    .nav__buttons {
+      gap: 5px;
+      right: 10px;
+    }
+    .nav__login__button,
+    .nav__signup__button {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+}
+
+@media (max-width: 360px) {
+    .navbar__logo {
+      left: 8px; 
+    }
+    .navbar__logo img {
+      height: 22px;
+    }
+    .nav__buttons {
+      gap: 3px;
+    }
+    .nav__login__button,
+    .nav__signup__button {
+      padding: 4px 8px;
+      font-size: 11px;
+    }
+}
   

@@ -1,33 +1,30 @@
+// FlightsHotels.js
 import React from "react";
 import "./FlightsHotels.css";
+import { useNavigate } from "react-router-dom"; 
 
-const options = [
-    { 
-        title: "Vuelos", 
-        description: "Busca vuelos hacia nuestros destinos más populares", 
-        image: "/assets/Flight.png",
-        buttonText: "Ver Vuelos"    
-    },
-    { 
-        title: "Hoteles", 
-        description: "Busca hoteles en nuestros destinos más populares", 
-        image: "/assets/Hotel.jpg",
-        buttonText: "Ver Hoteles" 
-    }
-];
+const FlightsHotels = ({ options }) => {
+    const navigate = useNavigate(); 
+  
+    const handleSignupClick = () => {
+      navigate("/signup"); 
+    };
 
-const FlightsHotels = () => {
     return (
         <section className="flights-hotels">
             {options.map((option, index) => (
                 <div 
                     key={index} 
-                    className="flights-hotels__option"
+                    className={`flights-hotels__option ${index === 1 ? 'center-option' : ''}`}
                     style={{ backgroundImage: `url(${option.image})` }}
                 >
-                    <h2>{option.title}</h2>
-                    <p>{option.description}</p>
-                    <button className="flights-hotels__button">{option.buttonText}</button>
+                    {index === 1 && option.title && ( 
+                        <>
+                            <h2>{option.title}</h2>
+                            <p>{option.description}</p>
+                            <button className="flights-hotels__button" onClick={handleSignupClick}>{option.buttonText}</button>
+                        </>
+                    )}
                 </div>
             ))}
         </section>

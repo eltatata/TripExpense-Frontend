@@ -5,6 +5,7 @@
     overflow: hidden;
     transition: transform 0.3s;
     border: #bbb;
+    cursor: pointer;
   }
   
   .destination-card:hover {

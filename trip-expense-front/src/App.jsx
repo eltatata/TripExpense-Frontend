@@ -3,8 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import LoginPage from './pages/loginPage/LoginPage.jsx'
 import SignUpPage from './pages/SignUpPage/SignUpPage.jsx';
-import LandingPage from './pages/LandingPage/LandingPage.jsx';
-
+import LandingPage from './pages/landingPage/LandingPage.jsx';
 function App() {
   return (
     <BrowserRouter>

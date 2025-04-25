@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./SearchForm.css";
+import { useNavigate } from "react-router-dom"; 
 
 const SearchForm = () => {
   const [checkInDate, setCheckInDate] = useState(new Date());
@@ -11,6 +12,12 @@ const SearchForm = () => {
   const [destination, setDestination] = useState("");
   const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
+
+  const navigate = useNavigate(); 
+
+  const handleSignupClick = () => {
+    navigate("/signup"); 
+  };
 
   return (
     <div className="search-container">
@@ -91,7 +98,7 @@ const SearchForm = () => {
           </select>
         </div>
 
-        <button className="search-button"><strong>Buscar <br/>Viajes</strong></button>
+        <button className="search-button" onClick={handleSignupClick}><strong>Buscar Viajes</strong></button>
       </div>
     </div>
   );
