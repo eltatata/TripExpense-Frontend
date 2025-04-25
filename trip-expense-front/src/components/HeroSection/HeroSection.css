@@ -1,4 +1,3 @@
-/* HERO PRINCIPAL */
 .hero {
   position: relative;
   max-width: 1400px;
@@ -12,7 +11,7 @@
   color: whitesmoke;
   border-radius: 20px;
   margin: 10px auto 0;
-  padding-bottom: 40px; /* Espacio para el SearchForm */
+  padding-bottom: 40px; 
 }
 
 .hero__overlay {
@@ -46,7 +45,7 @@
   text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
 }
 
-/* RESPONSIVE HERO */
+
 @media (max-width: 1400px) {
   .hero {
     width: 97%;

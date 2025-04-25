@@ -1,4 +1,3 @@
-/* Estilos base (conserva los existentes) */
 .search-container {
   position: absolute;
   bottom: -50px;
@@ -30,7 +29,6 @@
   width: 100%;
 }
 
-/* Estilos unificados para inputs */
 .search-input,
 .select-dropdown,
 .date-picker input {
@@ -75,9 +73,6 @@
   white-space: nowrap;
 }
 
-/* -------------------------------
-   RESPONSIVE - NUEVA ESTRUCTURA
-------------------------------- */
 @media (max-width: 768px) {
   .search-form {
     grid-template-columns: 1fr;
@@ -85,8 +80,8 @@
   }
 
   .input-group {
-    grid-template-columns: 1fr 1fr; /* 2 columnas */
-    grid-template-rows: auto auto auto; /* 3 filas */
+    grid-template-columns: 1fr 1fr; 
+    grid-template-rows: auto auto auto; 
     grid-template-areas:
       "origin destination"
       "checkin checkout"
@@ -94,7 +89,6 @@
     gap: 12px;
   }
 
-  /* Asignación de áreas */
   .search-input:nth-of-type(1) { grid-area: origin; }      /* Origen */
   .search-input:nth-of-type(2) { grid-area: destination; } /* Destino */
   .date-picker:nth-of-type(1)  { grid-area: checkin; }     /* Check-In */
@@ -109,15 +103,13 @@
     height: 50px;
   }
 
-  /* Ajuste para calendarios */
+
   .calendar-dropdown {
     width: 100%;
     transform: translateX(-25%);
   }
 }
-/* ... (conserva todos los estilos anteriores) ... */
 
-/* RESPONSIVE - CELULARES PEQUEÑOS (menos de 576px) */
 @media (max-width: 576px) {
   .search-form {
     padding: 12px;
@@ -127,15 +119,15 @@
   }
 
   .input-group {
-    grid-template-columns: 1fr 1fr; /* Mantenemos 2 columnas */
+    grid-template-columns: 1fr 1fr; 
     gap: 8px;
   }
 
-  /* Reducimos el tamaño de todos los inputs */
+ 
   .search-input,
   .select-dropdown,
   .date-picker input {
-    height: 40px; /* Más compactos */
+    height: 40px; 
     font-size: 14px;
     padding: 0 8px;
   }
