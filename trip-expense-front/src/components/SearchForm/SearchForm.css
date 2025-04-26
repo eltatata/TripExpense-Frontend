@@ -1,84 +1,182 @@
 .search-container {
-    position: absolute;
-    top: 80%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    
-  }
-  
-  .search-form {
-    background: #404040;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 1);
-    width: 95%;
-    max-width: 1000px;
-    display: grid;
-    grid-template-columns: 3fr .45fr; 
-    gap: 10px;
-    align-items: center;
-  }
-  
-  .input-group {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 20px;
-    
-  }
-  
-  .search-input,
-  .date-picker input,
-  .select-dropdown {
-    width: 95%;
-    padding: 12px;
-    border: 1px solid #bbb;
-    border-radius: 5px;
-    font-size: 16px;
-    background-color: white;
-    cursor: pointer;
-    text-align: center;
-    justify-content: space-between;
-  }
-  
-  .date-picker {
-    position: relative;
-    width: 100%;
-  }
-  
-  .calendar-dropdown {
-    position: absolute;
-    top: 50px;
-    left: 0;
-    z-index: 10;
-    background: #404040;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    padding: 10px;
-  }
-  
-  .select-group {
-    width: 100%;
-    text-align: center;
-    justify-content: space-between;
-  }
-  
-  .search-button {
-    background-color: #00ffff;
-    color: white;
-    padding: 10px;
-    height: 100%;;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 20px;
-    
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 97.5%;
+  display: flex;
+  justify-content: center;
+  z-index: 5;
+}
 
+.search-form {
+  background: #404040;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 1);
+  width: 90%;
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.input-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+.search-input,
+.select-dropdown,
+.date-picker input {
+  width: 100%;
+  height: 46px;
+  padding: 0 12px;
+  font-size: 16px;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  background-color: white;
+  box-sizing: border-box;
+  margin: 0;
+  text-align: center;
+}
+
+.date-picker {
+  position: relative;
+  width: 100%;
+  height: 46px;
+}
+
+.calendar-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 10;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  margin-top: 5px;
+}
+
+.search-button {
+  background-color: #00ffff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  height: 100%;
+  padding: 0 20px;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .search-form {
+    grid-template-columns: 1fr;
+    padding: 15px;
   }
-  
-  .search-button:hover {
-    background-color: #00cccc;
+
+  .input-group {
+    grid-template-columns: 1fr 1fr; 
+    grid-template-rows: auto auto auto; 
+    grid-template-areas:
+      "origin destination"
+      "checkin checkout"
+      "adults children";
+    gap: 12px;
   }
-  
+
+  .search-input:nth-of-type(1) { grid-area: origin; }      /* Origen */
+  .search-input:nth-of-type(2) { grid-area: destination; } /* Destino */
+  .date-picker:nth-of-type(1)  { grid-area: checkin; }     /* Check-In */
+  .date-picker:nth-of-type(2)  { grid-area: checkout; }    /* Check-Out */
+  .select-dropdown:nth-of-type(1) { grid-area: adults; }   /* Adultos */
+  .select-dropdown:nth-of-type(2) { grid-area: children; } /* Niños */
+
+  .search-button {
+    grid-column: 1 / -1;
+    width: 100%;
+    margin-top: 10px;
+    height: 50px;
+  }
+
+
+  .calendar-dropdown {
+    width: 100%;
+    transform: translateX(-25%);
+  }
+}
+
+@media (max-width: 576px) {
+  .search-form {
+    padding: 12px;
+  }
+  .search-container{
+    bottom: -100px;
+  }
+
+  .input-group {
+    grid-template-columns: 1fr 1fr; 
+    gap: 8px;
+  }
+
+ 
+  .search-input,
+  .select-dropdown,
+  .date-picker input {
+    height: 40px; 
+    font-size: 14px;
+    padding: 0 8px;
+  }
+
+  .date-picker {
+    height: 40px;
+  }
+
+  /* Ajustamos el calendario */
+  .calendar-dropdown {
+    width: 280px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Botón más compacto */
+  .search-button {
+    height: 44px;
+    font-size: 16px;
+    margin-top: 8px;
+  }
+
+  /* Texto del botón en una línea */
+  .search-button strong {
+    display: inline;
+    line-height: 1.2;
+  }
+}
+
+/* Ajuste extra para pantallas muy pequeñas (menos de 400px) */
+@media (max-width: 400px) {
+  .input-group {
+    gap: 6px;
+  }
+
+  .search-container{
+    bottom: -108px;
+  }
+
+  .search-input,
+  .select-dropdown,
+  .date-picker input {
+    height: 38px;
+    font-size: 13px;
+  }
+
+  .search-button {
+    height: 42px;
+    font-size: 15px;
+  }
+}
+
