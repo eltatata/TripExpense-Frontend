@@ -19,31 +19,27 @@ const HotelsSearch = () => {
     };
 
     return (
-        <div className="hs-container">
-            <div className="search-form">
-                <p className="search-title">¿A dónde quieres volar?</p>
-                <div className="input-group">
-                    <div className="search-field">
-                        <input
-                            type="text"
-                            placeholder="Introduce el destino"
-                            value={destination}
-                            onChange={(e) => setDestination(e.target.value)}
-                            className="search-input"
-                        />
-                    </div>
+        <div className="hs-page">
+            <div className="hs-container">
+                <p className="hs-title">¿A dónde quieres volar?</p>
+                <div className="hs-form">
+                    <input className="hs-input"
+                        type="text"
+                        placeholder="Introduce el destino"
+                        value={destination}
+                        onChange={(e) => setDestination(e.target.value)}
+                    />
 
-                    <div className="search-field">
-                        <input
+                    <div className="hs-picker">
+                        <input className="hs-input"
                             type="text"
                             readOnly
                             placeholder="Check-In"
                             value={checkInDate.toLocaleDateString()}
-                            className="search-input"
                             onClick={() => setShowCalendar({ ...showCalendar, checkIn: !showCalendar.checkIn })}
                         />
                         {showCalendar.checkIn && (
-                            <div className="calendar-dropdown">
+                            <div className="hs-cdropdown">
                                 <Calendar
                                     onChange={(date) => {
                                         setCheckInDate(date);
@@ -55,17 +51,16 @@ const HotelsSearch = () => {
                         )}
                     </div>
 
-                    <div className="search-field">
-                        <input
+                    <div className="hs-picker">
+                        <input className="hs-input"
                             type="text"
                             readOnly
                             placeholder="Check-Out"
                             value={checkOutDate.toLocaleDateString()}
-                            className="search-input"
                             onClick={() => setShowCalendar({ ...showCalendar, checkOut: !showCalendar.checkOut })}
                         />
                         {showCalendar.checkOut && (
-                            <div className="calendar-dropdown">
+                            <div className="hs-cdropdown">
                                 <Calendar
                                     onChange={(date) => {
                                         setCheckOutDate(date);
@@ -77,35 +72,30 @@ const HotelsSearch = () => {
                         )}
                     </div>
 
-                    <div className="search-field">
-                        <select value={rooms} onChange={(e) => setRooms(Number(e.target.value))}>
-                            {[...Array(5).keys()].map((num) => (
-                                <option key={num + 1} value={num + 1}>
-                                    {num + 1} habitación(es)
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                    <select className="hs-dropdown" value={rooms} onChange={(e) => setRooms(e.target.value)}>
+                        {[...Array(5).keys()].map((num) => (
+                            <option key={num + 1} value={num + 1}>
+                                {num + 1} habitación(es)
+                            </option>
+                        ))}
+                    </select>
 
-                    <div className="search-field">
-                        <select value={guests} onChange={(e) => setGuests(Number(e.target.value))}>
-                            {[...Array(6).keys()].map((num) => (
-                                <option key={num + 1} value={num + 1}>
-                                    {num + 1} huésped(es)
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-
-                    <div className="search-button-group">
-                        <span className="promo-code">+ Agregar código promocional</span>
-                        <button className="search-button" onClick={() => navigate("/signup")}>
-                            Buscar lugares
-                        </button>
-                    </div>
+                    <select className="hs-dropdown" value={guests} onChange={(e) => setGuests(e.target.value)}>
+                        {[...Array(6).keys()].map((num) => (
+                            <option key={num + 1} value={num + 1}>
+                                {num + 1} huésped(es)
+                            </option>
+                        ))}
+                    </select>
 
                 </div>
 
+                <div className="hs-bgroup">
+                    <span className="hs-promocode">+ Agregar código promocional</span>
+                    <button className="hs-button" onClick={() => navigate("/signup")}>
+                        Buscar lugares
+                    </button>
+                </div>
             </div>
         </div>
     );

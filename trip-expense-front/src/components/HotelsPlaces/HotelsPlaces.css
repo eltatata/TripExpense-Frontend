@@ -1,0 +1,149 @@
+.places {
+  text-align: center;
+  background-color: #404040;
+  padding: 20px 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 1);
+  border-radius: 20px;
+  width: 98%;
+}
+
+.places-header {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: left;
+}
+
+.places-header h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: white;
+}
+
+.places-header p {
+  color: whitesmoke;
+  font-size: 16px;
+}
+
+.places-text {
+  width: 100%;
+  text-align: left;
+}
+
+.places-button {
+  margin-left: auto;
+  margin-right: 90px;
+  background-color: #E38C4D;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+  color: white;
+  font-size: 18px;
+}
+
+.places-button:hover {
+  background-color: #CC7433;
+}
+
+.places-cards {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width: 1200px) {
+  .places {
+    width: 90%;
+  }
+
+  .places-header h2,
+  .places-header p {
+    margin-left: 40px;
+  }
+
+  .places-button {
+    margin-right: 40px;
+  }
+}
+
+@media (max-width: 992px) {
+  .places {
+    width: 95%;
+    padding: 20px 15px;
+  }
+
+  .places-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 15px;
+  }
+
+  .places-header h2,
+  .places-header p {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+  }
+
+  .places-button {
+    margin: 0 auto;
+    order: 1;
+  }
+
+  .places-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .places {
+    width: 97%;
+    padding: 15px 10px;
+  }
+
+  .places-header h2 {
+    font-size: 24px;
+  }
+
+  .places-header p {
+    font-size: 14px;
+  }
+
+  .places-button {
+    font-size: 16px;
+    padding: 6px 12px;
+  }
+
+  .places-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .places {
+    width: 100%;
+    border-radius: 0;
+  }
+
+  .places-header h2 {
+    font-size: 20px;
+  }
+
+  .places-header p {
+    font-size: 13px;
+  }
+
+  .places-button {
+    font-size: 14px;
+    padding: 5px 10px;
+  }
+
+  .places-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
