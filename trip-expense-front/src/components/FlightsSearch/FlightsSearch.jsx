@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import "./HotelsSearch.css";
+import "./FlightsSearch.css";
 import { useNavigate } from "react-router-dom"; 
 
 const SearchForm = () => {
@@ -10,12 +10,12 @@ const SearchForm = () => {
   const [showCalendar, setShowCalendar] = useState({ checkIn: false, checkOut: false });
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
-  const [rooms, setRooms] = useState(1);
-  const [guests, setGuests] = useState(1);
+  const [adults, setAdults] = useState(1);
+  const [children, setChildren] = useState(0);
 
   const navigate = useNavigate(); 
 
-  const handleClick = () => {
+  const handleSignupClick = () => {
     navigate("/signup"); 
   };
 
@@ -37,10 +37,10 @@ const SearchForm = () => {
             onChange={(e) => setDestination(e.target.value)}
             className="search-input"
           />
-          <select value={rooms} onChange={(e) => setRooms(e.target.value)} className="select-dropdown">
+          <select value={adults} onChange={(e) => setAdults(e.target.value)} className="select-dropdown">
             {[...Array(6).keys()].map((num) => (
               <option key={num} value={num + 1}>
-                {num + 1} habitación(es)
+                {num + 1} Adulto(s)
               </option>
             ))}
           </select>
@@ -89,16 +89,16 @@ const SearchForm = () => {
             )}
           </div>
 
-          <select value={guests} onChange={(e) => setGuests(e.target.value)} className="select-dropdown">
+          <select value={children} onChange={(e) => setChildren(e.target.value)} className="select-dropdown">
             {[...Array(6).keys()].map((num) => (
               <option key={num} value={num}>
-                {num} huésped(es)
+                {num} Niño(s)
               </option>
             ))}
           </select>
         </div>
 
-        <button className="search-button" onClick={handleClick}><strong>Buscar Hoteles</strong></button>
+        <button className="search-button" onClick={handleSignupClick}><strong>Buscar Viajes</strong></button>
       </div>
     </div>
   );

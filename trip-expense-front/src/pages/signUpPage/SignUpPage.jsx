@@ -15,6 +15,7 @@ const SignUpPage = () => {
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -27,7 +28,7 @@ const SignUpPage = () => {
         e.preventDefault();
     
         try {
-          const response = await api.post("/signup", {
+          const response = await api.post("/auth/signup", {
             firstName,
             lastName,
             phone,
@@ -35,12 +36,23 @@ const SignUpPage = () => {
             password,
           });
     
-          if (response.status === 200) {
+          if (response.status === 200 || response.status === 201 ) {
+            setFirstName("");
+            setLastName("");
+            setPhone("");
+            setEmail("");
+            setPassword("");
+          
             navigate("/login");
           }
-        } catch (error) {
-            console.error('Error al registrarse: ', error)
-        }
+        }  catch (error) {
+            if (error.response && error.response.status === 409) {
+              setErrorMessage("El correo ya está registrado.");
+            } else {
+              setErrorMessage("Error inesperado. Intenta de nuevo.");
+            }
+            console.error("Error al registrarse: ", error);
+          }
       };
 
 
@@ -84,7 +96,7 @@ const SignUpPage = () => {
                             <input type="password" name="password" placeholder="Contraseña" value={password}
                            onChange={(e) => setPassword(e.target.value)}/>
                         </div>
-                        <button type="submit" className="su-button">Crear cuenta</button>
+                        <button type="submit" className="su-button" onClick={handleSignUp}>Crear cuenta</button>
                         <p className="su-login-text">
                             ¿Ya tienes una cuenta? <a href="/login" className="su-login-link">Iniciar sesión</a>
                         </p>

@@ -1,4 +1,4 @@
-.hp-page {
+.fp-page {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -6,7 +6,7 @@
     width: 100%;
 }
 
-.hp-places {
+.fp-places {
     width: 90%;
     margin-top: 120px;
     display: flex;
@@ -14,7 +14,7 @@
     align-items: center;
 }
 
-.hp-hotels{
+.fp-flights{
    
     max-width: 1400px;
     width: 91%;

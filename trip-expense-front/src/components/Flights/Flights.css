@@ -1,0 +1,150 @@
+.flights {
+    text-align: center;
+    background-color: #404040;
+    padding: 20px 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 1);
+    border-radius: 20px;
+    max-width: 1400px;
+    margin-top: 60px;
+  }
+  
+  .flights-header {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+  }
+  
+  .flights-header h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    margin-left: 70px;
+  }
+  
+  .flights-header p {
+    color: whitesmoke;
+    font-size: 16px;
+    margin-left: 70px;
+  }
+  
+  .flights-button {
+    margin-left: auto;
+    margin-right: 90px;
+    background-color: #E38C4D;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    color: white;
+    font-size: 18px;
+  }
+  
+  .flights-button:hover {
+    background-color: #CC7433;
+  }
+  
+  .flights-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  @media (max-width: 1200px) {
+    .flights {
+      width: 90%;
+    }
+  
+    .flights-header h2,
+    .flights-header p {
+      margin-left: 40px;
+    }
+  
+    .flights-button {
+      margin-right: 40px;
+    }
+  }
+  
+  @media (max-width: 992px) {
+    .flights {
+      width: 95%;
+      padding: 20px 15px;
+    }
+  
+    .flights-header {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 15px;
+    }
+  
+    .flights-header h2,
+    .flights-header p {
+      margin-left: 0;
+      margin-right: 0;
+      width: 100%;
+    }
+  
+    .flights-button {
+      margin: 0 auto;
+      order: 1;
+    }
+  
+    .flights-grid {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .flights {
+      width: 97%;
+      padding: 15px 10px;
+    }
+  
+    .flights-header h2 {
+      font-size: 24px;
+    }
+  
+    .flights-header p {
+      font-size: 14px;
+    }
+  
+    .flights-button {
+      font-size: 16px;
+      padding: 6px 12px;
+    }
+  
+    .flights-grid {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .flights {
+      width: 100%;
+      border-radius: 0;
+    }
+  
+    .flights-header h2 {
+      font-size: 20px;
+    }
+  
+    .flights-header p {
+      font-size: 13px;
+    }
+  
+    .flights-button {
+      font-size: 14px;
+      padding: 5px 10px;
+    }
+  
+    .flights-grid {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+  }
