@@ -16,7 +16,7 @@
   background-color: #ffffff;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0, 123, 255, 0.2);
+  box-shadow: 0 8px 24px rgba(227, 140, 77, 0.3);
 }
 
 .lp-images {
@@ -52,7 +52,7 @@
 }
 
 .lp-dot.lp-active {
-  background-color: #00ffff;
+  background-color: #D99E6C;
 }
 
 .lp-form-container {
@@ -83,7 +83,7 @@
 .lp-button {
   width: 100%;
   padding: 12px;
-  background-color: #007BFF;
+  background-color: #E38C4D;
   border: none;
   color: #ffffff;
   font-weight: bold;
@@ -93,7 +93,7 @@
 }
 
 .lp-button:hover {
-  background-color: #3366CC;
+  background-color: #CC7433;
 }
 
 .lp-register-text {
@@ -102,7 +102,7 @@
 }
 
 .lp-register-link {
-  color: #007BFF;
+  color: #E38C4D;
   text-decoration: none;
   font-weight: bold;
 }

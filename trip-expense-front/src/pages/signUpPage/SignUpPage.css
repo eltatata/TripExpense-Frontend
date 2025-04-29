@@ -1,6 +1,7 @@
 .su-page {
     background-color: #404040;
-    height: 100vh; 
+    height: 100vh;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -8,15 +9,19 @@
 
 .su-container {
     display: flex;
-    max-width: 1200px;
+    width: 90%;
+    max-width: 1400px;
+    min-width: 600px;
+    min-height: 600px;
     background-color: #ffffff;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 247, 255, 0.4);
+    box-shadow: 0 8px 24px rgba(227, 140, 77, 0.3);
 }
 
 .su-images {
-    flex: 1;
+    flex: 1.2;
+    min-height: 400px;
     position: relative;
     display: flex;
     align-items: center;
@@ -47,19 +52,22 @@
 }
 
 .su-dot.su-active {
-    background-color: #00ffff;
+    background-color: #D99E6C;
 }
 
 .su-form-container {
     flex: 1;
     padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     text-align: left;
 }
 
 .su-input-group {
     display: flex;
     gap: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .su-input-group input {
@@ -75,7 +83,7 @@
 .su-button {
     width: 100%;
     padding: 12px;
-    background-color: #00ffff;
+    background-color: #E38C4D;
     border: none;
     color: #ffffff;
     font-weight: bold;
@@ -85,7 +93,7 @@
 }
 
 .su-button:hover {
-    background-color: #00cccc;
+    background-color: #CC7433;
 }
 
 .su-login-text {
@@ -94,7 +102,7 @@
 }
 
 .su-login-link {
-    color: #00ffff;
+    color: #E38C4D;
     text-decoration: none;
     font-weight: bold;
 }
@@ -106,10 +114,18 @@
 @media (max-width: 768px) {
     .su-container {
         flex-direction: column;
-        width: 90%;
+        min-height: auto;
+        min-width: auto;
     }
 
     .su-images {
+        flex: none;
+        width: 100%;
         height: 250px;
+        min-height: auto;
+    }
+
+    .su-form-container {
+        padding: 20px;
     }
 }
