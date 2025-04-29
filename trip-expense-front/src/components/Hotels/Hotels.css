@@ -1,0 +1,150 @@
+.hotels {
+    text-align: center;
+    background-color: #404040;
+    padding: 20px 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 1);
+    border-radius: 20px;
+    max-width: 1400px;
+    margin-top: 60px;
+  }
+  
+  .hotels-header {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+  }
+  
+  .hotels-header h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    margin-left: 70px;
+  }
+  
+  .hotels-header p {
+    color: whitesmoke;
+    font-size: 16px;
+    margin-left: 70px;
+  }
+  
+  .hotels-button {
+    margin-left: auto;
+    margin-right: 90px;
+    background-color: #E38C4D;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    color: white;
+    font-size: 18px;
+  }
+  
+  .hotels-button:hover {
+    background-color: #CC7433;
+  }
+  
+  .hotels-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  @media (max-width: 1200px) {
+    .hotels {
+      width: 90%;
+    }
+  
+    .hotels-header h2,
+    .hotels-header p {
+      margin-left: 40px;
+    }
+  
+    .hotels-button {
+      margin-right: 40px;
+    }
+  }
+  
+  @media (max-width: 992px) {
+    .hotels {
+      width: 95%;
+      padding: 20px 15px;
+    }
+  
+    .hotels-header {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 15px;
+    }
+  
+    .hotels-header h2,
+    .hotels-header p {
+      margin-left: 0;
+      margin-right: 0;
+      width: 100%;
+    }
+  
+    .hotels-button {
+      margin: 0 auto;
+      order: 1;
+    }
+  
+    .hotels-grid {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .hotels {
+      width: 97%;
+      padding: 15px 10px;
+    }
+  
+    .hotels-header h2 {
+      font-size: 24px;
+    }
+  
+    .hotels-header p {
+      font-size: 14px;
+    }
+  
+    .hotels-button {
+      font-size: 16px;
+      padding: 6px 12px;
+    }
+  
+    .hotels-grid {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .hotels {
+      width: 100%;
+      border-radius: 0;
+    }
+  
+    .hotels-header h2 {
+      font-size: 20px;
+    }
+  
+    .hotels-header p {
+      font-size: 13px;
+    }
+  
+    .hotels-button {
+      font-size: 14px;
+      padding: 5px 10px;
+    }
+  
+    .hotels-grid {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+  }
