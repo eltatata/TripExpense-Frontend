@@ -45,7 +45,7 @@
 }
 
 .flights-hotels__button {
-    background-color: #00ffff;
+    background-color: #E38C4D;
     border: none;
     padding: 12px 25px;
     border-radius: 5px;
@@ -59,7 +59,7 @@
 }
 
 .flights-hotels__button:hover {
-    background-color: #00cccc;
+    background-color: #CC7433;
     transform: translateY(-3px);
 }
 
