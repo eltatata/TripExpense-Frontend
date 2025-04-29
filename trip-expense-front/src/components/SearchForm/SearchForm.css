@@ -62,7 +62,7 @@
 }
 
 .search-button {
-  background-color: #00ffff;
+  background-color: #E38C4D;
   color: white;
   border: none;
   border-radius: 5px;
@@ -71,6 +71,9 @@
   height: 100%;
   padding: 0 20px;
   white-space: nowrap;
+}
+.search-button:hover{
+background-color:#CC7433 ;
 }
 
 @media (max-width: 768px) {
@@ -136,28 +139,28 @@
     height: 40px;
   }
 
-  /* Ajustamos el calendario */
+ 
   .calendar-dropdown {
     width: 280px;
     left: 50%;
     transform: translateX(-50%);
   }
 
-  /* Botón más compacto */
+ 
   .search-button {
     height: 44px;
     font-size: 16px;
     margin-top: 8px;
   }
 
-  /* Texto del botón en una línea */
+
   .search-button strong {
     display: inline;
     line-height: 1.2;
   }
 }
 
-/* Ajuste extra para pantallas muy pequeñas (menos de 400px) */
+
 @media (max-width: 400px) {
   .input-group {
     gap: 6px;

@@ -3,6 +3,8 @@ import "./LoginPage.css"
 import image1 from "../../assets/image1.jpg"
 import image2 from "../../assets/image2.jpg"
 import image3 from "../../assets/image3.jpg"
+import api from "../../services/api";
+import { useNavigate } from "react-router-dom";
 
 const images = [image1, image2, image3];
 
@@ -10,6 +12,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -17,6 +20,23 @@ const LoginPage = () => {
     }, 5000);
     return () => clearInterval(interval);
   }, []);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await api.post("/login", {
+        email,
+        password,
+      });
+
+      if (response.status === 200) {
+        navigate("/home");
+      }
+    } catch (error) {
+        console.error('Error al iniciar sesión: ', error)
+    }
+  };
 
   return (
     <div className="lp-page">
@@ -47,7 +67,7 @@ const LoginPage = () => {
                 onChange={(e) => setPassword(e.target.value)} />
             </div>
 
-            <button type="submit" className="lp-button">Iniciar Sesión</button>
+            <button type="submit" className="lp-button" onClick={handleLogin}>Iniciar Sesión</button>
 
             <p className="lp-register-text">
               ¿No tienes cuenta? <a href="/signup" className="lp-register-link">Regístrate</a>

@@ -31,7 +31,7 @@
 .destinations__button {
   margin-left: auto;
   margin-right: 90px;
-  background-color: #00ffff;
+  background-color: #E38C4D;
   border: none;
   padding: 8px 15px;
   border-radius: 5px;
@@ -42,7 +42,7 @@
 }
 
 .destinations__button:hover {
-  background-color: #00cccc;
+  background-color: #CC7433;
 }
 
 .destinations__grid {
