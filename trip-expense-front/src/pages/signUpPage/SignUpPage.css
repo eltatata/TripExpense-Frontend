@@ -1,0 +1,131 @@
+.su-page {
+    background-color: #404040;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.su-container {
+    display: flex;
+    width: 90%;
+    max-width: 1400px;
+    min-width: 600px;
+    min-height: 600px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(227, 140, 77, 0.3);
+}
+
+.su-images {
+    flex: 1.2;
+    min-height: 400px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.su-images img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.su-dots {
+    position: absolute;
+    bottom: 10px;
+    display: flex;
+}
+
+.su-dot {
+    width: 8px;
+    height: 8px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.su-dot.su-active {
+    background-color: #D99E6C;
+}
+
+.su-form-container {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+}
+
+.su-input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.su-input-group input {
+    flex: 1;
+    padding: 12px;
+    color: #404040;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.su-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #E38C4D;
+    border: none;
+    color: #ffffff;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.su-button:hover {
+    background-color: #CC7433;
+}
+
+.su-login-text {
+    text-align: center;
+    font-size: 14px;
+}
+
+.su-login-link {
+    color: #E38C4D;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.su-login-link:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .su-container {
+        flex-direction: column;
+        min-height: auto;
+        min-width: auto;
+    }
+
+    .su-images {
+        flex: none;
+        width: 100%;
+        height: 250px;
+        min-height: auto;
+    }
+
+    .su-form-container {
+        padding: 20px;
+    }
+}

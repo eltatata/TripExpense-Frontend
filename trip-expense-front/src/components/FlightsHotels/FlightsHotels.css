@@ -1,0 +1,130 @@
+.flights-hotels {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 20px;
+    padding: 30px;
+    background-color: #404040;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 1);
+    width: 90.5%;
+    max-width: 1400px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.flights-hotels__option {
+    position: relative;
+    flex: 1;
+    height: 400px; 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    aspect-ratio: 3/2; 
+}
+
+.center-option {
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    background-blend-mode: overlay;
+}
+
+.flights-hotels__option:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.flights-hotels__button {
+    background-color: #E38C4D;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.flights-hotels__button:hover {
+    background-color: #CC7433;
+    transform: translateY(-3px);
+}
+
+@media (max-width: 1400px) {
+    .flights-hotels__option { 
+        height: 380px; 
+    }
+}
+
+@media (max-width: 1200px) {
+    .flights-hotels {
+        padding: 25px;
+    }
+    
+    .flights-hotels__option {
+        height: 350px; 
+    }
+}
+
+@media (max-width: 992px) {
+    .flights-hotels {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    .flights-hotels__option {
+        flex: 1 1 calc(50% - 15px); 
+        height: 320px; 
+    }
+    
+    .center-option {
+        flex: 1 1 100%; 
+        order: 0; 
+        height: 320px; 
+    }
+}
+
+@media (max-width: 768px) {
+    .flights-hotels {
+        padding: 20px;
+    }
+    
+    .flights-hotels__option {
+        height: 280px; 
+        flex: 1 1 100%; 
+    }
+}
+
+@media (max-width: 576px) {
+    .flights-hotels {
+        padding: 15px;
+    }
+    
+    .flights-hotels__option {
+        height: 220px; 
+    }
+    
+    .flights-hotels__button {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 400px) {
+    .flights-hotels__option {
+        height: 180px;
+    }
+}

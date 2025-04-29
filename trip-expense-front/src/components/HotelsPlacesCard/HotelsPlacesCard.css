@@ -1,0 +1,49 @@
+.pc-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s;
+  border: #bbb;
+  cursor: pointer;
+}
+
+.pc-card:hover {
+  transform: translateY(-5px);
+}
+
+.pc-image {
+  margin-top: 10px;
+  margin-bottom: 0;
+  width: 90%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 5px;
+
+}
+
+.pc-content {
+  padding: 10px 15px;
+  margin-top: 0;
+}
+
+.pc-content h3 {
+  font-size: 18px;
+  margin-bottom: 5px;
+  margin-top: 0;
+}
+
+.pc-button {
+  background-color: #E38C4D;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+  color: white;
+  font-size: 18px;
+}
+
+.pc-button:hover {
+  background-color: #CC7433;
+}
