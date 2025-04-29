@@ -1,0 +1,78 @@
+.hnav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 32px;
+    background-color: white;
+    position: relative;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.hnav-flightshotels,
+.hnav-user {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.hnav-logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    font-weight: bold;
+    color: #404040;
+}
+
+.hnav-logo img {
+    height: 50px;
+    width: auto;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.hnav-button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: #404040;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.hnav-button:hover {
+    color: #E38C4D;
+}
+
+.hnav-button.active {
+    border-bottom: 2px solid #E38C4D;
+    padding-bottom: 2px;
+}
+
+.hnav-profile {
+    position: relative;
+}
+
+.hnav-pbutton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.hnav-pimage {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.hnav-pname {
+    font-size: 14px;
+    color: #404040;
+    font-weight: 500;
+}

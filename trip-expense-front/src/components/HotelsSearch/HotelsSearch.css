@@ -1,0 +1,126 @@
+.hs-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1100px;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+}
+
+.search-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    font-family: 'Montserrat', sans-serif;
+    min-width: 140px;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.input-row {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.search-field {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px 14px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    transition: border 0.3s;
+}
+
+.search-field:focus-within {
+    border-color: #2db183;
+}
+
+.search-field input,
+.search-field select {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 15px;
+    font-family: 'Montserrat', sans-serif;
+    background: transparent;
+}
+
+.calendar-dropdown {
+    position: absolute;
+    top: 55px;
+    left: 0;
+    z-index: 1000;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.search-button-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.promo-code {
+    font-size: 14px;
+    color: #666;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    white-space: nowrap;
+}
+
+.search-button {
+    background-color: #2db183;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    white-space: nowrap;
+}
+
+.search-button:hover {
+    background-color: #27976f;
+}
+
+/* Responsive ajustes */
+@media (max-width: 768px) {
+    .search-form {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .input-row {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .search-button-group {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-button {
+        width: 100%;
+    }
+}
