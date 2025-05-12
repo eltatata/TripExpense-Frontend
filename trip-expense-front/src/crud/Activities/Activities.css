@@ -11,7 +11,9 @@
   align-items: center;
   margin-bottom: 20px;
 }
-
+.no-activities-message{
+  color: white;
+}
 .activities-header .activities-title {
   font-size: 24px;
   margin-left: 23px;

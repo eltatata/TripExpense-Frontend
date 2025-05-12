@@ -63,6 +63,10 @@
   border-radius: 10px;
 }
 
+.no-flights-message{
+  color: white;
+}
+
 .flight-info {
   padding: 16px;
   display: flex;

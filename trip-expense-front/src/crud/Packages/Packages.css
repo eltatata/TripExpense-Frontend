@@ -18,6 +18,10 @@
   color: white;
 }
 
+.no-packages-message{
+  color: white;
+}
+
 .create-button {
   background-color: #E38C4D;
   border: none;

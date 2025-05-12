@@ -125,3 +125,7 @@
 .delete-button:hover {
   background-color: #d32f2f;
 }
+
+.no-users-message{
+  color: white;
+}
