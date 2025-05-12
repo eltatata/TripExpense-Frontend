@@ -30,8 +30,10 @@
     align-items: center;
     gap: 10px;
   }
+
   
-  .nav__login__button {
+  
+  .nav__login__button , .nav__logout__button{
     color: white;
     background: #404040;
     border: none;
@@ -43,7 +45,7 @@
     transition: 0.3s;
   }
 
-  .nav__login__button:hover{
+  .nav__login__button:hover, .nav__logout__button:hover{
     background-color: #595959;
   }
   

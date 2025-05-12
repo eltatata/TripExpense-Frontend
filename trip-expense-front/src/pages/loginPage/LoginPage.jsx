@@ -22,21 +22,29 @@ const LoginPage = () => {
   }, []);
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      const response = await api.post("/auth/login", {
-        email,
-        password,
-      });
+  try {
+    const response = await api.post("/auth/login", {
+      email,
+      password,
+    });
 
-      if (response.status === 200) {
+    if (response.status === 200) {
+      const user = response.data.userDTO;
+      
+      localStorage.setItem("user", JSON.stringify(user));
+
+      if (user.role === "ADMIN") {
+        navigate("/admin");
+      } else {
         navigate("/home");
       }
-    } catch (error) {
-        console.error('Error al iniciar sesión: ', error)
     }
-  };
+  } catch (error) {
+    console.error("Error al iniciar sesión: ", error);
+  }
+};
 
   return (
     <div className="lp-page">
