@@ -79,6 +79,19 @@ h2 {
   margin-top: 1.5rem;
 }
 
+.create-activity-modal-form select {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+  background-color: white;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
 .create-activity-modal-actions button {
   padding: 8px 16px;
   border: none;
@@ -86,6 +99,7 @@ h2 {
   cursor: pointer;
   flex: 1;
   margin: 0 5px;
+  font-weight: bold;
 }
 
 .create-activity-modal-actions button[type="submit"] {

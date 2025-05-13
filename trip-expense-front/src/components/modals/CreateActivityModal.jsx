@@ -1,110 +1,61 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './CreateActivityModal.css';
+import { useForm } from 'react-hook-form';
 import api from '../../services/api';
 
+const categories = [
+  'Aventura',
+  'Cultura',
+  'Gastronomía',
+  'Naturaleza',
+  'Deportes',
+  'Entretenimiento',
+  'Relajación',
+  'Educativa',
+];
+
+const difficulties = ['Fácil', 'Media', 'Difícil'];
+
 const CreateActivityModal = ({ isOpen, onClose, onCreate }) => {
-  const [newActivity, setNewActivity] = useState({
-    name: '',
-    city: '',
-    description: '',
-    image: '',
-    category: '',
-    duration: '',
-    location: '',
-    difficulty: '',
-  });
+  const [cities, setCities] = useState([]);
+  const [imageFile, setImageFile] = useState(null);
 
-  const [errors, setErrors] = useState({
-    name: '',
-    city: '',
-    description: '',
-    image: '',
-    category: '',
-    duration: '',
-    location: '',
-    difficulty: '',
-  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewActivity((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setNewActivity((prevState) => ({
-        ...prevState,
-        image: URL.createObjectURL(file),
-      }));
-    }
-  };
-
-  const validateForm = () => {
-    let formIsValid = true;
-    let errors = {};
-
-    if (!newActivity.name) {
-      formIsValid = false;
-      errors.name = 'El nombre de la actividad es obligatorio';
-    }
-    if (!newActivity.city) {
-      formIsValid = false;
-      errors.city = 'La ciudad es obligatoria';
-    }
-    if (!newActivity.description) {
-      formIsValid = false;
-      errors.description = 'La descripción es obligatoria';
-    }
-    if (!newActivity.image) {
-      formIsValid = false;
-      errors.image = 'La imagen es obligatoria';
-    }
-    if (!newActivity.category) {
-      formIsValid = false;
-      errors.category = 'La categoría es obligatoria';
-    }
-    if (!newActivity.duration) {
-      formIsValid = false;
-      errors.duration = 'La duración es obligatoria';
-    }
-    if (!newActivity.location) {
-      formIsValid = false;
-      errors.location = 'La ubicación es obligatoria';
-    }
-    if (!newActivity.difficulty) {
-      formIsValid = false;
-      errors.difficulty = 'La dificultad es obligatoria';
-    }
-
-    setErrors(errors);
-    return formIsValid;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (validateForm()) {
+  useEffect(() => {
+    const fetchCities = async () => {
       try {
-        const response = await api.post('/activities', newActivity);
-        onCreate(response.data); 
-        setNewActivity({
-          name: '',
-          city: '',
-          description: '',
-          image: '',
-          category: '',
-          duration: '',
-          location: '',
-          difficulty: '',
-        });
-        onClose(); 
+        const res = await api.get('/cities');
+        setCities(res.data);
       } catch (error) {
-        console.error('Error al crear la actividad:', error);
+        console.error('Error al cargar ciudades:', error);
       }
+    };
+
+    if (isOpen) {
+      fetchCities();
+      reset(); 
+    }
+  }, [isOpen, reset]);
+
+  const onSubmit = async (data) => {
+    try {
+      const payload = {
+        ...data,
+        duration: parseInt(data.duration, 10),
+        image: imageFile ? URL.createObjectURL(imageFile) : '',
+      };
+
+      const res = await api.post('/activities', payload);
+      onCreate(res.data);
+      onClose();
+    } catch (error) {
+      console.error('Error al crear la actividad:', error);
     }
   };
 
@@ -113,98 +64,109 @@ const CreateActivityModal = ({ isOpen, onClose, onCreate }) => {
       <div className="create-activity-modal-overlay">
         <div className="create-activity-modal-container">
           <h2>Crear Actividad</h2>
-          <form onSubmit={handleSubmit} className="create-activity-modal-form">
+          <form onSubmit={handleSubmit(onSubmit)} className="create-activity-modal-form">
             <label>
               Nombre:
               <input
                 type="text"
-                name="name"
-                value={newActivity.name}
-                onChange={handleChange}
-                required
+                {...register('name', { required: 'El nombre es obligatorio' })}
               />
-              {errors.name && <span className="create-activity-error">{errors.name}</span>}
+              {errors.name && <span className="create-activity-error">{errors.name.message}</span>}
             </label>
 
             <label>
               Ciudad:
-              <input
-                type="text"
-                name="city"
-                value={newActivity.city}
-                onChange={handleChange}
-                required
-              />
-              {errors.city && <span className="create-activity-error">{errors.city}</span>}
+              <select
+                {...register('cityId', { required: 'La ciudad es obligatoria' })}
+                defaultValue=""
+              >
+                <option value="" disabled>Selecciona una ciudad</option>
+                {cities.map((city) => (
+                  <option key={city.id} value={city.id}>{city.name}</option>
+                ))}
+              </select>
+              {errors.cityId && <span className="create-activity-error">{errors.cityId.message}</span>}
             </label>
 
             <label>
               Descripción:
               <textarea
-                name="description"
-                value={newActivity.description}
-                onChange={handleChange}
-                required
+                {...register('description', { required: 'La descripción es obligatoria' })}
               />
-              {errors.description && <span className="create-activity-error">{errors.description}</span>}
+              {errors.description && <span className="create-activity-error">{errors.description.message}</span>}
             </label>
 
             <label>
               Imagen:
               <input
                 type="file"
-                name="image"
-                onChange={handleImageChange}
+                accept="image/*"
+                onChange={(e) => setImageFile(e.target.files[0])}
               />
-              {errors.image && <span className="create-activity-error">{errors.image}</span>}
             </label>
 
             <label>
               Categoría:
-              <input
-                type="text"
-                name="category"
-                value={newActivity.category}
-                onChange={handleChange}
-                required
-              />
-              {errors.category && <span className="create-activity-error">{errors.category}</span>}
+              <select
+                {...register('category', { required: 'La categoría es obligatoria' })}
+                defaultValue=""
+              >
+                <option value="" disabled>Selecciona una categoría</option>
+                {categories.map((cat) => (
+                  <option key={cat} value={cat}>{cat}</option>
+                ))}
+              </select>
+              {errors.category && <span className="create-activity-error">{errors.category.message}</span>}
             </label>
 
             <label>
-              Duración:
+              Duración (minutos):
               <input
-                type="text"
-                name="duration"
-                value={newActivity.duration}
-                onChange={handleChange}
-                required
+                type="number"
+                {...register('duration', {
+                  required: 'La duración es obligatoria',
+                  valueAsNumber: true,
+                  min: { value: 1, message: 'Debe ser al menos 1 minuto' },
+                })}
               />
-              {errors.duration && <span className="create-activity-error">{errors.duration}</span>}
+              {errors.duration && <span className="create-activity-error">{errors.duration.message}</span>}
             </label>
 
             <label>
               Ubicación:
               <input
                 type="text"
-                name="location"
-                value={newActivity.location}
-                onChange={handleChange}
-                required
+                {...register('location', { required: 'La ubicación es obligatoria' })}
               />
-              {errors.location && <span className="create-activity-error">{errors.location}</span>}
+              {errors.location && <span className="create-activity-error">{errors.location.message}</span>}
             </label>
 
             <label>
               Dificultad:
-              <input
-                type="text"
-                name="difficulty"
-                value={newActivity.difficulty}
-                onChange={handleChange}
-                required
-              />
-              {errors.difficulty && <span className="create-activity-error">{errors.difficulty}</span>}
+              <select
+                {...register('difficulty', { required: 'La dificultad es obligatoria' })}
+                defaultValue=""
+              >
+                <option value="" disabled>Selecciona una dificultad</option>
+                {difficulties.map((d) => (
+                  <option key={d} value={d}>{d}</option>
+                ))}
+              </select>
+              {errors.difficulty && <span className="create-activity-error">{errors.difficulty.message}</span>}
+            </label>
+
+            <label>
+                Precio:
+                <input
+                type="number"
+                step="1"
+                {...register("price", {
+                    required: "El precio es obligatorio",
+                    valueAsNumber: true,
+                    min: { value: 0, message: "El precio debe ser positivo" },
+                })}
+                />
+                {errors.price && <p className="create-activity-error">{errors.price.message}</p>}
             </label>
 
             <div className="create-activity-modal-actions">

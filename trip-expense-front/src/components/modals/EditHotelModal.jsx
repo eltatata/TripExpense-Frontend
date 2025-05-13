@@ -1,171 +1,199 @@
-import React, { useState, useEffect } from 'react';
-import './EditHotelModal.css';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import api from '../../services/api';
+import './EditHotelModal.css';
 
 const amenitiesList = ['Wi-Fi', 'Piscina', 'Gimnasio', 'Desayuno', 'Aire acondicionado', 'Spa', 'Estacionamiento', 'Restaurante', 'Bar'];
 
 const EditHotelModal = ({ isOpen, onClose, onUpdate, hotelToEdit }) => {
-  const [hotel, setHotel] = useState({
-    name: '',
-    city: '',
-    address: '',
-    image: '',
-    stars: '',
-    description: '',
-    amenities: [],
-    checkInTime: '',
-    checkOutTime: '',
-    email: '',
-    phone: '',
-  });
-
-  const [errors, setErrors] = useState({});
+  const [cities, setCities] = useState([]);
+  const [imagePreview, setImagePreview] = useState('');
+  const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm();
 
   useEffect(() => {
-    if (hotelToEdit) setHotel(hotelToEdit);
-  }, [hotelToEdit]);
+    const fetchCities = async () => {
+      try {
+        const res = await api.get('/cities');
+        setCities(res.data);
+      } catch (error) {
+        console.error('Error al cargar ciudades:', error);
+      }
+    };
+    if (isOpen) fetchCities();
+  }, [isOpen]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setHotel((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleAmenitiesChange = (e) => {
-    const { value, checked } = e.target;
-    setHotel((prev) => {
-      const updatedAmenities = checked
-        ? [...prev.amenities, value]
-        : prev.amenities.filter((a) => a !== value);
-      return { ...prev, amenities: updatedAmenities };
-    });
-  };
+  useEffect(() => {
+    if (hotelToEdit) {
+      setValue('name', hotelToEdit.name);
+      setValue('city', hotelToEdit.city.cityId);
+      setValue('address', hotelToEdit.address);
+      setValue('stars', hotelToEdit.stars);
+      setValue('description', hotelToEdit.description || '');
+      setValue('checkInTime', hotelToEdit.checkInTime);
+      setValue('checkOutTime', hotelToEdit.checkOutTime);
+      setValue('email', hotelToEdit.email);
+      setValue('phone', hotelToEdit.phone || '');
+      setValue('amenities', hotelToEdit.amenities || []);
+      setValue('imageUrl', hotelToEdit.imageUrl || '');
+      setImagePreview(hotelToEdit.imageUrl || '');
+    }
+  }, [hotelToEdit, setValue]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setHotel((prev) => ({ ...prev, image: URL.createObjectURL(file) }));
+      const url = URL.createObjectURL(file);
+      setImagePreview(url);
+      setValue('imageUrl', url);
     }
   };
 
-  const validateForm = () => {
-    const errs = {};
-    if (!hotel.name) errs.name = 'Nombre obligatorio';
-    if (!hotel.city) errs.city = 'Ciudad obligatoria';
-    if (!hotel.address) errs.address = 'Dirección obligatoria';
-    if (!hotel.stars) errs.stars = 'Estrellas obligatorias';
-    if (!hotel.checkInTime) errs.checkInTime = 'Hora de check-in obligatoria';
-    if (!hotel.checkOutTime) errs.checkOutTime = 'Hora de check-out obligatoria';
-    if (!hotel.email) errs.email = 'Email obligatorio';
-    if (!hotel.phone) errs.phone = 'Teléfono obligatorio';
-    setErrors(errs);
-    return Object.keys(errs).length === 0;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-
+  const onSubmit = async (data) => {
     try {
-      const response = await api.put(`/hotels/${hotel.hotelId}`, hotel);
-      onUpdate(response.data);
+      const payload = {
+        name: data.name,
+        city: { cityId: parseInt(data.city) },
+        address: data.address,
+        imageUrl: data.imageUrl,
+        stars: parseInt(data.stars),
+        description: data.description,
+        amenities: data.amenities || [],
+        checkInTime: data.checkInTime,
+        checkOutTime: data.checkOutTime,
+        email: data.email,
+        phone: data.phone,
+      };
+
+      const res = await api.put(`/hotels/${hotelToEdit.hotelId}`, payload);
+      onUpdate(res.data);
+      reset();
+      setImagePreview('');
       onClose();
     } catch (err) {
       console.error('Error al actualizar hotel:', err);
     }
   };
 
+  if (!isOpen) return null;
+
   return (
-    isOpen && (
-      <div className="edit-hotel-modal-overlay">
-        <div className="edit-hotel-modal-container">
-          <h2>Editar Hotel</h2>
-          <form onSubmit={handleSubmit} className="edit-hotel-modal-form">
-            <div className="form-group">
-              <label>Nombre:</label>
-              <input name="name" value={hotel.name} onChange={handleChange} />
-              {errors.name && <span className="edit-hotel-error">{errors.name}</span>}
-            </div>
+    <div className="edit-hotel-modal-overlay">
+      <div className="edit-hotel-modal-container">
+        <h2>Editar Hotel</h2>
+        <form onSubmit={handleSubmit(onSubmit)} className="edit-hotel-modal-form">
 
-            <div className="form-group">
-              <label>Ciudad:</label>
-              <input name="city" value={hotel.city} onChange={handleChange} />
-              {errors.city && <span className="edit-hotel-error">{errors.city}</span>}
-            </div>
+          <div className="edit-hotel-form-group">
+            <label>Nombre:</label>
+            <input {...register('name', { required: 'El nombre es obligatorio', maxLength: 100 })} />
+            {errors.name && <span className="edit-hotel-error">{errors.name.message}</span>}
+          </div>
 
-            <div className="form-group">
-              <label>Dirección:</label>
-              <input name="address" value={hotel.address} onChange={handleChange} />
-              {errors.address && <span className="edit-hotel-error">{errors.address}</span>}
-            </div>
+          <div className="edit-hotel-form-group">
+            <label>Ciudad:</label>
+            <select {...register('city', { required: 'La ciudad es obligatoria' })}>
+              <option value="" disabled>Seleccione una ciudad</option>
+              {cities.map(city => (
+                <option key={city.cityId} value={city.cityId}>{city.name}</option>
+              ))}
+            </select>
+            {errors.city && <span className="edit-hotel-error">{errors.city.message}</span>}
+          </div>
 
-            <div className="form-group image-file">
-              <label>Imagen:</label>
-              <input type="file" onChange={handleImageChange} />
-            </div>
+          <div className="edit-hotel-form-group">
+            <label>Dirección:</label>
+            <input {...register('address', { required: 'La dirección es obligatoria', maxLength: 255 })} />
+            {errors.address && <span className="edit-hotel-error">{errors.address.message}</span>}
+          </div>
 
-            <div className="form-group">
-              <label>Estrellas:</label>
-              <select name="stars" value={hotel.stars} onChange={handleChange}>
-                <option value="">Seleccione</option>
-                {[1, 2, 3, 4, 5].map((s) => <option key={s} value={s}>{s} ⭐</option>)}
-              </select>
-              {errors.stars && <span className="edit-hotel-error">{errors.stars}</span>}
-            </div>
+          <div className="edit-hotel-form-group edit-hotel-image-file">
+            <label>Imagen:</label>
+            <input type="file" onChange={handleImageChange} />
+            {imagePreview && <img src={imagePreview} alt="Vista previa" style={{ width: '100px' }} />}
+          </div>
 
-            <div className="form-group">
-              <label>Descripción:</label>
-              <textarea name="description" value={hotel.description} onChange={handleChange}></textarea>
-            </div>
+          <input type="hidden" {...register('imageUrl', {
+            maxLength: 255,
+            pattern: {
+              value: /^https?:\/\/.+/,
+              message: 'Debe ser una URL válida'
+            }
+          })} />
 
-            <div className="form-group">
-              <fieldset>
-                <legend>Amenities:</legend>
-                {amenitiesList.map((a) => (
-                  <div key={a} className="amenities-option">
-                    <input
-                      type="checkbox"
-                      value={a}
-                      checked={hotel.amenities?.includes(a)}
-                      onChange={handleAmenitiesChange}
-                    />
-                    <span>{a}</span>
-                  </div>
-                ))}
-              </fieldset>
-            </div>
+          <div className="edit-hotel-form-group">
+            <label>Estrellas:</label>
+            <select
+              {...register('stars', {
+                required: 'Las estrellas son obligatorias',
+                validate: value => [1, 2, 3, 4, 5].includes(Number(value)) || 'Debe estar entre 1 y 5'
+              })}
+            >
+              <option value="" disabled>Seleccione estrellas</option>
+              {[1, 2, 3, 4, 5].map(n => (
+                <option key={n} value={n}>{n} estrella{n > 1 && 's'}</option>
+              ))}
+            </select>
+            {errors.stars && <span className="edit-hotel-error">{errors.stars.message}</span>}
+          </div>
 
-            <div className="form-group">
-              <label>Check-In:</label>
-              <input type="time" name="checkInTime" value={hotel.checkInTime} onChange={handleChange} />
-              {errors.checkInTime && <span className="edit-hotel-error">{errors.checkInTime}</span>}
-            </div>
+          <div className="edit-hotel-form-group">
+            <label>Descripción:</label>
+            <textarea {...register('description')} />
+          </div>
 
-            <div className="form-group">
-              <label>Check-Out:</label>
-              <input type="time" name="checkOutTime" value={hotel.checkOutTime} onChange={handleChange} />
-              {errors.checkOutTime && <span className="edit-hotel-error">{errors.checkOutTime}</span>}
-            </div>
+          <div className="edit-hotel-form-group">
+            <fieldset>
+              <legend>Amenities:</legend>
+              {amenitiesList.map(a => (
+                <div key={a} className="edit-hotel-amenities-option">
+                  <input type="checkbox" value={a} {...register('amenities')} />
+                  <span>{a}</span>
+                </div>
+              ))}
+            </fieldset>
+          </div>
 
-            <div className="form-group">
-              <label>Email:</label>
-              <input name="email" type="email" value={hotel.email} onChange={handleChange} />
-              {errors.email && <span className="edit-hotel-error">{errors.email}</span>}
-            </div>
+          <div className="edit-hotel-form-group">
+            <label>Check-In:</label>
+            <input type="time" {...register('checkInTime', { required: 'Hora de check-in obligatoria' })} />
+            {errors.checkInTime && <span className="edit-hotel-error">{errors.checkInTime.message}</span>}
+          </div>
 
-            <div className="form-group">
-              <label>Teléfono:</label>
-              <input name="phone" value={hotel.phone} onChange={handleChange} />
-              {errors.phone && <span className="edit-hotel-error">{errors.phone}</span>}
-            </div>
+          <div className="edit-hotel-form-group">
+            <label>Check-Out:</label>
+            <input type="time" {...register('checkOutTime', { required: 'Hora de check-out obligatoria' })} />
+            {errors.checkOutTime && <span className="edit-hotel-error">{errors.checkOutTime.message}</span>}
+          </div>
 
-            <div className="modal-actions">
-              <button type="submit">Actualizar</button>
-              <button type="button" onClick={onClose}>Cancelar</button>
-            </div>
-          </form>
-        </div>
+          <div className="edit-hotel-form-group">
+            <label>Email:</label>
+            <input
+              type="email"
+              {...register('email', {
+                required: 'Email obligatorio',
+                maxLength: 100,
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: 'Formato de email inválido'
+                }
+              })}
+            />
+            {errors.email && <span className="edit-hotel-error">{errors.email.message}</span>}
+          </div>
+
+          <div className="edit-hotel-form-group">
+            <label>Teléfono:</label>
+            <input {...register('phone', { maxLength: 20 })} />
+            {errors.phone && <span className="edit-hotel-error">{errors.phone.message}</span>}
+          </div>
+
+          <div className="edit-hotel-modal-actions">
+            <button type="submit">Guardar cambios</button>
+            <button type="button" onClick={() => { reset(); setImagePreview(''); onClose(); }}>Cancelar</button>
+          </div>
+
+        </form>
       </div>
-    )
+    </div>
   );
 };
 

@@ -1,168 +1,173 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './CreateHotelModal.css';
 import api from '../../services/api';
+import { useForm } from 'react-hook-form';
 
-const amenitiesList = ['Wi-Fi', 'Piscina', 'Gimnasio', 'Desayuno', 'Aire acondicionado', 'Spa', 'Estacionamiento', 'Restaurante', 'Bar'];
+const amenitiesList = ['Wi-Fi', 'Piscina', 'Gimnasio', 'Desayuno', 'Aire acondicionado', 'Spa', 'Estacionamiento', 'Restaurante', 'Bar', 'Lavandería', 'Servicio a la habitación', 'Pet friendly', 'Actividades recreativas'];
 
 const CreateHotelModal = ({ isOpen, onClose, onCreate }) => {
-  const [newHotel, setNewHotel] = useState({
-    name: '',
-    city: '',
-    address: '',
-    image: '',
-    stars: '',
-    description: '',
-    amenities: [],
-    checkInTime: '',
-    checkOutTime: '',
-    email: '',
-    phone: '',
-  });
+  const [cities, setCities] = useState([]);
+  const [imagePreview, setImagePreview] = useState('');
 
-  const [errors, setErrors] = useState({});
+  const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewHotel((prev) => ({ ...prev, [name]: value }));
-  };
+  useEffect(() => {
+    const fetchCities = async () => {
+      try {
+        const res = await api.get('/cities');
+        setCities(res.data);
+      } catch (error) {
+        console.error('Error al cargar ciudades:', error);
+      }
+    };
+    fetchCities();
+  }, []);
 
-  const handleAmenitiesChange = (e) => {
-    const { value, checked } = e.target;
-    setNewHotel((prev) => {
-      const updatedAmenities = checked
-        ? [...prev.amenities, value]
-        : prev.amenities.filter((a) => a !== value);
-      return { ...prev, amenities: updatedAmenities };
-    });
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setNewHotel((prev) => ({ ...prev, image: URL.createObjectURL(file) }));
-    }
-  };
-
-  const validateForm = () => {
-    const errs = {};
-    if (!newHotel.name) errs.name = 'Nombre obligatorio';
-    if (!newHotel.city) errs.city = 'Ciudad obligatoria';
-    if (!newHotel.address) errs.address = 'Dirección obligatoria';
-    if (!newHotel.stars) errs.stars = 'Estrellas obligatorias';
-    if (!newHotel.checkInTime) errs.checkInTime = 'Hora de check-in obligatoria';
-    if (!newHotel.checkOutTime) errs.checkOutTime = 'Hora de check-out obligatoria';
-    if (!newHotel.email) errs.email = 'Email obligatorio';
-    if (!newHotel.phone) errs.phone = 'Teléfono obligatorio';
-    setErrors(errs);
-    return Object.keys(errs).length === 0;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-
+  const onSubmit = async (data) => {
     try {
-      const response = await api.post('/hotels', newHotel);
+      data.stars = parseInt(data.stars);
+      const response = await api.post('/hotels', data);
       onCreate(response.data);
-      setNewHotel({ name: '', city: '', address: '', image: '', stars: '', description: '', amenities: [], checkInTime: '', checkOutTime: '', email: '', phone: '' });
+      reset();
+      setImagePreview('');
       onClose();
     } catch (err) {
       console.error('Error al crear hotel:', err);
     }
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setImagePreview(url);
+      setValue('imageUrl', url);
+    }
+  };
+
+  if (!isOpen) return null;
+
   return (
-    isOpen && (
-      <div className="create-hotel-modal-overlay">
-        <div className="create-hotel-modal-container">
-          <h2>Crear Hotel</h2>
-          <form onSubmit={handleSubmit} className="create-hotel-modal-form">
-            <div className="form-group">
-              <label>Nombre:</label>
-              <input name="name" value={newHotel.name} onChange={handleChange} />
-              {errors.name && <span className="create-hotel-error">{errors.name}</span>}
-            </div>
+    <div className="create-hotel-modal-overlay">
+      <div className="create-hotel-modal-container">
+        <h2>Crear Hotel</h2>
+        <form onSubmit={handleSubmit(onSubmit)} className="create-hotel-modal-form">
 
-            <div className="form-group">
-              <label>Ciudad:</label>
-              <input name="city" value={newHotel.city} onChange={handleChange} />
-              {errors.city && <span className="create-hotel-error">{errors.city}</span>}
-            </div>
+          <div className="create-hotel-form-group">
+            <label>Nombre:</label>
+            <input {...register('name', { required: 'El nombre es obligatorio', maxLength: 100 })} />
+            {errors.name && <span className="create-hotel-error">{errors.name.message}</span>}
+          </div>
 
-            <div className="form-group">
-              <label>Dirección:</label>
-              <input name="address" value={newHotel.address} onChange={handleChange} />
-              {errors.address && <span className="create-hotel-error">{errors.address}</span>}
-            </div>
+          <div className="create-hotel-form-group">
+            <label>Ciudad:</label>
+            <select {...register('city', { required: 'La ciudad es obligatoria' })} defaultValue="">
+              <option value="" disabled>Seleccione una ciudad</option>
+              {cities.map(city => (
+                <option key={city.cityId} value={city.cityId}>{city.name}</option>
+              ))}
+            </select>
+            {errors.city && <span className="create-hotel-error">{errors.city.message}</span>}
+          </div>
 
-            <div className="form-group image-file">
-              <label>Imagen:</label>
-              <input type="file" onChange={handleImageChange} />
-            </div>
+          <div className="create-hotel-form-group">
+            <label>Dirección:</label>
+            <input {...register('address', { required: 'La dirección es obligatoria', maxLength: 255 })} />
+            {errors.address && <span className="create-hotel-error">{errors.address.message}</span>}
+          </div>
 
-            <div className="form-group">
-              <label>Estrellas:</label>
-              <select name="stars" value={newHotel.stars} onChange={handleChange}>
-                <option value="">Seleccione</option>
-                {[1, 2, 3, 4, 5].map((s) => <option key={s} value={s}>{s} ⭐</option>)}
-              </select>
-              {errors.stars && <span className="create-hotel-error">{errors.stars}</span>}
-            </div>
+          <div className="create-hotel-form-group create-hotel-image-file">
+            <label>Imagen:</label>
+            <input type="file" onChange={handleImageChange} />
+            {imagePreview && <img src={imagePreview} alt="Vista previa" style={{ width: '100px' }} />}
+          </div>
 
-            <div className="form-group">
-              <label>Descripción:</label>
-              <textarea name="description" value={newHotel.description} onChange={handleChange}></textarea>
-            </div>
+          <input type="hidden" {...register('imageUrl', {
+            maxLength: 255,
+            pattern: {
+              value: /^https?:\/\/.+/,
+              message: 'Debe ser una URL válida'
+            }
+          })} />
 
-            <div className="form-group">
-              <fieldset>
-                <legend>Amenities:</legend>
-                {amenitiesList.map((a) => (
-                  <div key={a} className="amenities-option">
-                    <input
-                      type="checkbox"
-                      value={a}
-                      checked={newHotel.amenities.includes(a)}
-                      onChange={handleAmenitiesChange}
-                    />
+          <div className="create-hotel-form-group">
+            <label>Estrellas:</label>
+            <select
+              {...register('stars', {
+                required: 'Las estrellas son obligatorias',
+                validate: value => [1, 2, 3, 4, 5].includes(Number(value)) || 'Debe estar entre 1 y 5'
+              })}
+              defaultValue=""
+            >
+              <option value="" disabled>Seleccione estrellas</option>
+              {[1, 2, 3, 4, 5].map(n => (
+                <option key={n} value={n}>{n} estrella{n > 1 && 's'}</option>
+              ))}
+            </select>
+            {errors.stars && <span className="create-hotel-error">{errors.stars.message}</span>}
+          </div>
+
+          <div className="create-hotel-form-group">
+            <label>Descripción:</label>
+            <textarea {...register('description')} />
+          </div>
+
+          <div className="create-hotel-form-group create-hotel-form-group-amenities">
+            <fieldset>
+              <legend>Amenities:</legend>
+              <div className="create-hotel-amenities-container">
+                {amenitiesList.map(a => (
+                  <div key={a} className="create-hotel-amenities-option">
+                    <input type="checkbox" value={a} {...register('amenities')} />
                     <span>{a}</span>
                   </div>
                 ))}
-              </fieldset>
-            </div>
+              </div>
+            </fieldset>
+          </div>
 
-            <div className="form-group">
-              <label>Check-In:</label>
-              <input type="time" name="checkInTime" value={newHotel.checkInTime} onChange={handleChange} />
-              {errors.checkInTime && <span className="create-hotel-error">{errors.checkInTime}</span>}
-            </div>
+          <div className="create-hotel-form-group">
+            <label>Check-In:</label>
+            <input type="time" {...register('checkInTime', { required: 'Hora de check-in obligatoria' })} />
+            {errors.checkInTime && <span className="create-hotel-error">{errors.checkInTime.message}</span>}
+          </div>
 
-            <div className="form-group">
-              <label>Check-Out:</label>
-              <input type="time" name="checkOutTime" value={newHotel.checkOutTime} onChange={handleChange} />
-              {errors.checkOutTime && <span className="create-hotel-error">{errors.checkOutTime}</span>}
-            </div>
+          <div className="create-hotel-form-group">
+            <label>Check-Out:</label>
+            <input type="time" {...register('checkOutTime', { required: 'Hora de check-out obligatoria' })} />
+            {errors.checkOutTime && <span className="create-hotel-error">{errors.checkOutTime.message}</span>}
+          </div>
 
-            <div className="form-group">
-              <label>Email:</label>
-              <input name="email" type="email" value={newHotel.email} onChange={handleChange} />
-              {errors.email && <span className="create-hotel-error">{errors.email}</span>}
-            </div>
+          <div className="create-hotel-form-group">
+            <label>Email:</label>
+            <input
+              type="email"
+              {...register('email', {
+                required: 'Email obligatorio',
+                maxLength: 100,
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: 'Formato de email inválido'
+                }
+              })}
+            />
+            {errors.email && <span className="create-hotel-error">{errors.email.message}</span>}
+          </div>
 
-            <div className="form-group">
-              <label>Teléfono:</label>
-              <input name="phone" value={newHotel.phone} onChange={handleChange} />
-              {errors.phone && <span className="create-hotel-error">{errors.phone}</span>}
-            </div>
+          <div className="create-hotel-form-group">
+            <label>Teléfono:</label>
+            <input {...register('phone', { maxLength: 20 })} />
+            {errors.phone && <span className="create-hotel-error">{errors.phone.message}</span>}
+          </div>
 
-            <div className="modal-actions">
-              <button type="submit">Crear</button>
-              <button type="button" onClick={onClose}>Cancelar</button>
-            </div>
-          </form>
-        </div>
+          <div className="create-hotel-modal-actions">
+            <button type="submit">Crear</button>
+            <button type="button" onClick={() => { reset(); setImagePreview(''); onClose(); }}>Cancelar</button>
+          </div>
+
+        </form>
       </div>
-    )
+    </div>
   );
 };
 

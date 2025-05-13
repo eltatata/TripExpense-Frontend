@@ -52,7 +52,8 @@ h2 {
 }
 
 .create-package-modal-form input,
-.create-package-modal-form textarea {
+.create-package-modal-form textarea,
+.create-package-modal-form select {
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -86,6 +87,7 @@ h2 {
   cursor: pointer;
   flex: 1;
   margin: 0 5px;
+  font-weight:  bold;
 }
 
 .create-package-modal-actions button[type="submit"] {
