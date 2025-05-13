@@ -1,0 +1,67 @@
+.filters-sidebar {
+  width: 250px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  font-family: sans-serif;
+  height: fit-content;
+  position: sticky;
+  top: 20px;
+}
+
+.filters-sidebar-title {
+  font-size: 18px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.filters-sidebar-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.filters-sidebar-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.filters-sidebar-form-group-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filters-sidebar-label {
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.filters-sidebar-label-checkbox {
+  font-size: 14px;
+}
+
+.filters-sidebar-input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.filters-sidebar-button {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #E38C4D;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.filters-sidebar-button:hover {
+  background-color: #CC7433 ;
+}

@@ -12,7 +12,7 @@
   display: flex;
   flex-direction: row;     
   align-items: center; 
-  text-align: left;
+  text-align: center;
 }
 
 .destinations__header h2 {
@@ -20,12 +20,14 @@
   font-weight: bold;
   margin-left: 70px;
   color: white;
+  text-align: center;
 }
 
 .destinations__header p {
   color: whitesmoke;
   font-size: 16px;
   margin-left: 70px;
+  text-align: center;
 }
 
 .destinations__button {
@@ -61,6 +63,7 @@
   .destinations__header h2,
   .destinations__header p {
       margin-left: 40px;
+      text-align: center;
   }
   
   .destinations__button {
