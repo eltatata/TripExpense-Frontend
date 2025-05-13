@@ -1,133 +1,156 @@
-.create-hotel-modal-overlay {
+.edit-hotel-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.4);
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
 }
 
-.create-hotel-modal-container {
-  background-color: #404040;
+.edit-hotel-modal-container {
+  background: #404040 !important;
   padding: 2rem;
-  border-radius: 12px;
+  border-radius: 8px;
   width: 100%;
-  max-width: 500px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  max-height: 80vh;
-  overflow-y: auto; 
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-.create-hotel-modal-container h2 {
-  text-align: center;
-  color: whitesmoke;
-}
-
-.create-hotel-modal-form {
+.edit-hotel-modal-form {
   display: flex;
   flex-direction: column;
+  text-align: left;
 }
 
-.create-hotel-modal-form label {
-  margin-bottom: 10px;
-  font-weight: bold;
-  color: whitesmoke;
-  font-family: 'Montserrat', sans-serif;
-  display: block;
-}
-
-.create-hotel-modal-form div {
+.edit-hotel-form-group {
   display: flex;
-  align-items: center;
-  margin-bottom: 15px;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.edit-hotel-form-group label {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  text-align: left;
+  width: 100%;
   color: white;
 }
 
-.create-hotel-modal-form div label {
-  min-width: 120px;
-  margin-right: 15px;
-}
-
-.create-hotel-modal-form input,
-.create-hotel-modal-form select,
-.create-hotel-modal-form textarea {
-  padding: 8px;
-  border: 1px solid #ddd;
+.edit-hotel-form-group input,
+.edit-hotel-form-group select,
+.edit-hotel-form-group textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
   border-radius: 4px;
+  font-size: 1rem;
   width: 100%;
   box-sizing: border-box;
   font-family: 'Montserrat', sans-serif;
 }
 
-.create-hotel-modal-form textarea {
-  resize: vertical;
+.edit-hotel-form-group textarea {
   min-height: 80px;
-  font-family: 'Montserrat', sans-serif;
+  resize: vertical;
 }
 
-fieldset {
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 10px;
-  margin-bottom: 15px;
-  color: whitesmoke;
-  font-family: 'Montserrat', sans-serif;
+.edit-hotel-error {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  text-align: left;
+  width: 100%;
+}
+
+.edit-hotel-amenities-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 10px;
+  justify-content:left;
+  margin-bottom: 15px;
 }
 
-legend {
-  padding: 0 8px;
-  font-weight: bold;
-}
-
-.amenities-option {
+.edit-hotel-amenities-option {
   display: flex;
   align-items: center;
-  gap: 8px;
   white-space: nowrap;
 }
 
-.create-hotel-error {
-  color: red;
-  font-size: 12px;
+
+
+.edit-hotel-image-file input {
+  padding: 0;
+  color: white;
 }
 
-.modal-actions {
+.edit-hotel-form-group-amenities{
+    border: 1px solid white;
+    border-radius: 4px;
+}
+.edit-hotel-image-file img {
+  margin-top: 0.5rem;
+  border: 1px solid white;
+  border-radius: 4px;
+  max-width: 100%;
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+}
+
+legend {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  text-align: left;
+  color: white;
+}
+
+.edit-hotel-modal-actions {
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
   margin-top: 1.5rem;
 }
 
-.modal-actions button {
- padding: 8px 16px;
+.edit-hotel-modal-actions button {
+  padding: 8px 16px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   flex: 1;
   margin: 0 5px;
+  font-weight: bold;
 }
 
-.modal-actions button[type="submit"] {
+.edit-hotel-modal-actions button[type="submit"] {
   background-color: #4caf50;
   color: white;
+  font-weight: bold;
 }
 
-.modal-actions button[type="submit"]:hover {
+.edit-hotel-modal-actions button[type="submit"]:hover {
   background-color: #45a049;
 }
 
-.modal-actions button[type="button"] {
+.edit-hotel-modal-actions button[type="button"] {
   background-color: #f44336;
   color: white;
+  font-weight: bold;
 }
 
-.modal-actions button[type="button"]:hover {
+.edit-hotel-modal-actions button[type="button"]:hover {
   background-color: #d32f2f;
 }
+

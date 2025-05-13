@@ -1,103 +1,41 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 import './CreateCityModal.css';
 import api from '../../services/api';
 
 const CreateCityModal = ({ isOpen, onClose, onCreate }) => {
-  const [newCity, setNewCity] = useState({
-    name: '',
-    country: '',
-    description: '',
-    image: '',
-    language: '',
-    currency: '',
-    climate: '',
-    bestTimeToVisit: '',
-  });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm();
 
-  const [errors, setErrors] = useState({});
+  const climateOptions = [
+    'Tropical',
+    'Seco',
+    'Templado',
+    'Frío',
+    'Polar',
+    'Desértico',
+    'Montañoso',
+  ];
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewCity((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setNewCity((prevState) => ({
-        ...prevState,
-        image: URL.createObjectURL(file),
-      }));
-    }
-  };
-
-  const validateForm = () => {
-    const newErrors = {};
-    let valid = true;
-
-    if (!newCity.name.trim()) {
-      newErrors.name = 'El nombre es obligatorio';
-      valid = false;
-    }
-
-    if (!newCity.country.trim()) {
-      newErrors.country = 'El país es obligatorio';
-      valid = false;
-    }
-
-    if (!newCity.description.trim()) {
-      newErrors.description = 'La descripción es obligatoria';
-      valid = false;
-    }
-
-    if (!newCity.language.trim()) {
-      newErrors.language = 'El idioma es obligatorio';
-      valid = false;
-    }
-
-    if (!newCity.currency.trim()) {
-      newErrors.currency = 'La moneda es obligatoria';
-      valid = false;
-    }
-
-    if (!newCity.climate.trim()) {
-      newErrors.climate = 'El clima es obligatorio';
-      valid = false;
-    }
-
-    if (!newCity.bestTimeToVisit.trim()) {
-      newErrors.bestTimeToVisit = 'Este campo es obligatorio';
-      valid = false;
-    }
-
-    setErrors(newErrors);
-    return valid;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (validateForm()) {
-      try {
-        const response = await api.post('/cities', newCity);
-        onCreate(response.data);
-        setNewCity({
-        name: '',
-        country: '',
-        description: '',
-        image: '',
-        language: '',
-        currency: '',
-        climate: '',
-        bestTimeToVisit: '',
-      });
-        onClose();
-      } catch (error) {
-        console.error('Error al crear la ciudad:', error);
+  const onSubmit = async (data) => {
+    try {
+      if (data.image && data.image.length > 0) {
+        data.image = URL.createObjectURL(data.image[0]);
+      } else {
+        data.image = '';
       }
+
+      const response = await api.post('/cities', data);
+      onCreate(response.data);
+      reset(); 
+      onClose();
+    } catch (error) {
+      console.error('Error al crear la ciudad:', error);
     }
   };
 
@@ -106,102 +44,102 @@ const CreateCityModal = ({ isOpen, onClose, onCreate }) => {
       <div className="create-city-modal-overlay">
         <div className="create-city-modal-container">
           <h2>Crear Ciudad</h2>
-          <form onSubmit={handleSubmit} className="create-city-modal-form">
+          <form onSubmit={handleSubmit(onSubmit)} className="create-city-modal-form">
             <label>
               Nombre:
               <input
                 type="text"
-                name="name"
-                value={newCity.name}
-                onChange={handleChange}
-                required
+                {...register('name', {
+                  required: 'El nombre es obligatorio',
+                  minLength: { value: 2, message: 'Mínimo 2 caracteres' },
+                })}
               />
-              {errors.name && <span className="create-city-error">{errors.name}</span>}
+              {errors.name && <span className="create-city-error">{errors.name.message}</span>}
             </label>
 
             <label>
               País:
               <input
                 type="text"
-                name="country"
-                value={newCity.country}
-                onChange={handleChange}
-                required
+                {...register('country', {
+                  required: 'El país es obligatorio',
+                  minLength: { value: 2, message: 'Mínimo 2 caracteres' },
+                })}
               />
-              {errors.country && <span className="create-city-error">{errors.country}</span>}
+              {errors.country && <span className="create-city-error">{errors.country.message}</span>}
             </label>
 
             <label>
               Descripción:
               <textarea
-                name="description"
-                value={newCity.description}
-                onChange={handleChange}
-                required
+                {...register('description', {
+                  required: 'La descripción es obligatoria',
+                  minLength: { value: 10, message: 'Mínimo 10 caracteres' },
+                })}
               />
-              {errors.description && <span className="create-city-error">{errors.description}</span>}
+              {errors.description && <span className="create-city-error">{errors.description.message}</span>}
             </label>
 
             <label>
               Idioma:
               <input
                 type="text"
-                name="language"
-                value={newCity.language}
-                onChange={handleChange}
-                required
+                {...register('language', {
+                  required: 'El idioma es obligatorio',
+                })}
               />
-              {errors.language && <span className="create-city-error">{errors.language}</span>}
+              {errors.language && <span className="create-city-error">{errors.language.message}</span>}
             </label>
 
             <label>
               Moneda:
               <input
                 type="text"
-                name="currency"
-                value={newCity.currency}
-                onChange={handleChange}
-                required
+                {...register('currency', {
+                  required: 'La moneda es obligatoria',
+                })}
               />
-              {errors.currency && <span className="create-city-error">{errors.currency}</span>}
+              {errors.currency && <span className="create-city-error">{errors.currency.message}</span>}
             </label>
 
             <label>
               Clima:
-              <input
-                type="text"
-                name="climate"
-                value={newCity.climate}
-                onChange={handleChange}
-                required
-              />
-              {errors.climate && <span className="create-city-error">{errors.climate}</span>}
+              <select
+                {...register('climate', { required: 'El clima es obligatorio' })}
+              >
+                <option value="">Seleccione un clima</option>
+                {climateOptions.map((climate, index) => (
+                  <option key={index} value={climate}>
+                    {climate}
+                  </option>
+                ))}
+              </select>
+              {errors.climate && <span className="create-city-error">{errors.climate.message}</span>}
             </label>
 
             <label>
               Mejor época para visitar:
               <input
                 type="text"
-                name="bestTimeToVisit"
-                value={newCity.bestTimeToVisit}
-                onChange={handleChange}
-                required
+                {...register('bestTimeToVisit', {
+                  required: 'Este campo es obligatorio',
+                })}
               />
-              {errors.bestTimeToVisit && <span className="create-city-error">{errors.bestTimeToVisit}</span>}
+              {errors.bestTimeToVisit && <span className="create-city-error">{errors.bestTimeToVisit.message}</span>}
             </label>
 
             <label>
               Imagen:
               <input
                 type="file"
-                name="image"
-                onChange={handleImageChange}
+                accept="image/*"
+                {...register('image')}
               />
             </label>
 
             <div className="create-city-modal-actions">
               <button type="submit">Crear</button>
-              <button type="button" onClick={onClose}>Cancelar</button>
+              <button type="button" onClick={() => { reset(); onClose(); }}>Cancelar</button>
             </div>
           </form>
         </div>

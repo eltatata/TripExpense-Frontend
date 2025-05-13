@@ -85,6 +85,7 @@ const Activities = () => {
                     <p><strong>Duración:</strong> {activity.duration}</p>
                     <p><strong>Ubicación:</strong> {activity.location}</p>
                     <p><strong>Dificultad:</strong> {activity.difficulty}</p>
+                    <p><strong>Precio:</strong> {activity.price}</p>
                   </div>
                 )}
 
