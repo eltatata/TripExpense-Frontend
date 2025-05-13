@@ -55,7 +55,7 @@ const CreatePackageModal = ({ isOpen, onClose, onCreate }) => {
         type: data.type,
       };
 
-      const res = await api.post('/packages', payload);
+      const res = await api.post('/travel-packages', payload);
       onCreate(res.data);
       reset();
       setImageUrl('');

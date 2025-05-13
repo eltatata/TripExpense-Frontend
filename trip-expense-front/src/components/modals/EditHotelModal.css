@@ -1,4 +1,4 @@
-.create-hotel-modal-overlay {
+.edit-hotel-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -11,8 +11,8 @@
   z-index: 1000;
 }
 
-.create-hotel-modal-container {
-  background: white;
+.edit-hotel-modal-container {
+  background: #404040 !important;
   padding: 2rem;
   border-radius: 8px;
   width: 100%;
@@ -22,13 +22,13 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-.create-hotel-modal-form {
+.edit-hotel-modal-form {
   display: flex;
   flex-direction: column;
   text-align: left;
 }
 
-.form-group {
+.edit-hotel-form-group {
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
@@ -36,30 +36,32 @@
   width: 100%;
 }
 
-.form-group label {
+.edit-hotel-form-group label {
   font-weight: bold;
   margin-bottom: 0.25rem;
   text-align: left;
   width: 100%;
+  color: white;
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
+.edit-hotel-form-group input,
+.edit-hotel-form-group select,
+.edit-hotel-form-group textarea {
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1rem;
   width: 100%;
   box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
 }
 
-.form-group textarea {
+.edit-hotel-form-group textarea {
   min-height: 80px;
   resize: vertical;
 }
 
-.create-hotel-error {
+.edit-hotel-error {
   color: red;
   font-size: 0.875rem;
   margin-top: 0.25rem;
@@ -67,31 +69,34 @@
   width: 100%;
 }
 
-.amenities-container {
+.edit-hotel-amenities-container {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  justify-content:left;
   margin-bottom: 15px;
 }
 
-.amenities-option {
+.edit-hotel-amenities-option {
   display: flex;
   align-items: center;
   white-space: nowrap;
-  margin-right: 15px;
 }
 
-.amenities-option input {
-  margin-right: 5px;
-}
 
-.image-file input {
+
+.edit-hotel-image-file input {
   padding: 0;
+  color: white;
 }
 
-.image-file img {
+.edit-hotel-form-group-amenities{
+    border: 1px solid white;
+    border-radius: 4px;
+}
+.edit-hotel-image-file img {
   margin-top: 0.5rem;
-  border: 1px solid #ddd;
+  border: 1px solid white;
   border-radius: 4px;
   max-width: 100%;
 }
@@ -101,29 +106,51 @@ fieldset {
   padding: 0;
   margin: 0;
   width: 100%;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
 }
 
 legend {
   font-weight: bold;
   margin-bottom: 0.5rem;
   text-align: left;
+  color: white;
 }
 
-.modal-actions {
+.edit-hotel-modal-actions {
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
-  margin-top: 1rem;
-  width: 100%;
-  font-weight: bold;
+  margin-top: 1.5rem;
 }
 
-.modal-actions button {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
+.edit-hotel-modal-actions button {
+  padding: 8px 16px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-weight: bold ;
+  flex: 1;
+  margin: 0 5px;
+  font-weight: bold;
+}
+
+.edit-hotel-modal-actions button[type="submit"] {
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+}
+
+.edit-hotel-modal-actions button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.edit-hotel-modal-actions button[type="button"] {
+  background-color: #f44336;
+  color: white;
+  font-weight: bold;
+}
+
+.edit-hotel-modal-actions button[type="button"]:hover {
+  background-color: #d32f2f;
 }
 

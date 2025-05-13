@@ -48,6 +48,7 @@ const EditActivityModal = ({ isOpen, onClose, onUpdate, activityToEdit }) => {
         setValue('duration', activityToEdit.duration || '');
         setValue('location', activityToEdit.location || '');
         setValue('difficulty', activityToEdit.difficulty || '');
+        setValue('price', activityToEdit.price || '');
         setImageFile(null);
       }
     }
@@ -163,6 +164,20 @@ const EditActivityModal = ({ isOpen, onClose, onUpdate, activityToEdit }) => {
                 ))}
               </select>
               {errors.difficulty && <span className="edit-activity-error">{errors.difficulty.message}</span>}
+            </label>
+
+            <label>
+                Precio:
+                <input
+                type="number"
+                step="1"
+                {...register("price", {
+                    required: "El precio es obligatorio",
+                    valueAsNumber: true,
+                    min: { value: 0, message: "El precio debe ser positivo" },
+                })}
+                />
+                {errors.price && <p className="create-activity-error">{errors.price.message}</p>}
             </label>
 
             <div className="edit-activity-modal-actions">

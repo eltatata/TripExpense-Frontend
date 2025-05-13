@@ -70,7 +70,7 @@ const EditPackageModal = ({ isOpen, onClose, onUpdate, packageToEdit }) => {
         type: data.type,
       };
 
-      const res = await api.put(`/packages/${packageToEdit.packageId}`, payload);
+      const res = await api.put(`/travel-packages/${packageToEdit.packageId}`, payload);
       onUpdate(res.data);
       reset();
       setImageUrl('');

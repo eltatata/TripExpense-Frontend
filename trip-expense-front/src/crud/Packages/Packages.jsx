@@ -17,7 +17,7 @@ const Packages = () => {
   useEffect(() => {
     const fetchPackages = async () => {
       try {
-        const res = await api.get("/packages");
+        const res = await api.get("/travel-packages");
         const dataArray = Array.isArray(res.data) ? res.data : res.data.data;
         setPackages(dataArray || []);
       } catch (error) {
@@ -45,7 +45,7 @@ const Packages = () => {
 
   const handleDelete = async () => {
     try {
-      await api.delete(`/packages/${packageToDelete}`);
+      await api.delete(`/travel-packages/${packageToDelete}`);
       setPackages(packages.filter((pkg) => pkg.id !== packageToDelete));
       setDeleteModalOpen(false);
       setPackageToDelete(null);

@@ -155,6 +155,20 @@ const CreateActivityModal = ({ isOpen, onClose, onCreate }) => {
               {errors.difficulty && <span className="create-activity-error">{errors.difficulty.message}</span>}
             </label>
 
+            <label>
+                Precio:
+                <input
+                type="number"
+                step="1"
+                {...register("price", {
+                    required: "El precio es obligatorio",
+                    valueAsNumber: true,
+                    min: { value: 0, message: "El precio debe ser positivo" },
+                })}
+                />
+                {errors.price && <p className="create-activity-error">{errors.price.message}</p>}
+            </label>
+
             <div className="create-activity-modal-actions">
               <button type="submit">Crear</button>
               <button type="button" onClick={onClose}>Cancelar</button>

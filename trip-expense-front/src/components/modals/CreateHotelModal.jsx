@@ -3,7 +3,7 @@ import './CreateHotelModal.css';
 import api from '../../services/api';
 import { useForm } from 'react-hook-form';
 
-const amenitiesList = ['Wi-Fi', 'Piscina', 'Gimnasio', 'Desayuno', 'Aire acondicionado', 'Spa', 'Estacionamiento', 'Restaurante', 'Bar'];
+const amenitiesList = ['Wi-Fi', 'Piscina', 'Gimnasio', 'Desayuno', 'Aire acondicionado', 'Spa', 'Estacionamiento', 'Restaurante', 'Bar', 'Lavandería', 'Servicio a la habitación', 'Pet friendly', 'Actividades recreativas'];
 
 const CreateHotelModal = ({ isOpen, onClose, onCreate }) => {
   const [cities, setCities] = useState([]);
@@ -53,13 +53,13 @@ const CreateHotelModal = ({ isOpen, onClose, onCreate }) => {
         <h2>Crear Hotel</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="create-hotel-modal-form">
 
-          <div className="form-group">
+          <div className="create-hotel-form-group">
             <label>Nombre:</label>
             <input {...register('name', { required: 'El nombre es obligatorio', maxLength: 100 })} />
             {errors.name && <span className="create-hotel-error">{errors.name.message}</span>}
           </div>
 
-          <div className="form-group">
+          <div className="create-hotel-form-group">
             <label>Ciudad:</label>
             <select {...register('city', { required: 'La ciudad es obligatoria' })} defaultValue="">
               <option value="" disabled>Seleccione una ciudad</option>
@@ -70,13 +70,13 @@ const CreateHotelModal = ({ isOpen, onClose, onCreate }) => {
             {errors.city && <span className="create-hotel-error">{errors.city.message}</span>}
           </div>
 
-          <div className="form-group">
+          <div className="create-hotel-form-group">
             <label>Dirección:</label>
             <input {...register('address', { required: 'La dirección es obligatoria', maxLength: 255 })} />
             {errors.address && <span className="create-hotel-error">{errors.address.message}</span>}
           </div>
 
-          <div className="form-group image-file">
+          <div className="create-hotel-form-group create-hotel-image-file">
             <label>Imagen:</label>
             <input type="file" onChange={handleImageChange} />
             {imagePreview && <img src={imagePreview} alt="Vista previa" style={{ width: '100px' }} />}
@@ -90,7 +90,7 @@ const CreateHotelModal = ({ isOpen, onClose, onCreate }) => {
             }
           })} />
 
-          <div className="form-group">
+          <div className="create-hotel-form-group">
             <label>Estrellas:</label>
             <select
               {...register('stars', {
@@ -107,36 +107,38 @@ const CreateHotelModal = ({ isOpen, onClose, onCreate }) => {
             {errors.stars && <span className="create-hotel-error">{errors.stars.message}</span>}
           </div>
 
-          <div className="form-group">
+          <div className="create-hotel-form-group">
             <label>Descripción:</label>
             <textarea {...register('description')} />
           </div>
 
-          <div className="form-group">
+          <div className="create-hotel-form-group create-hotel-form-group-amenities">
             <fieldset>
               <legend>Amenities:</legend>
-              {amenitiesList.map(a => (
-                <div key={a} className="amenities-option">
-                  <input type="checkbox" value={a} {...register('amenities')} />
-                  <span>{a}</span>
-                </div>
-              ))}
+              <div className="create-hotel-amenities-container">
+                {amenitiesList.map(a => (
+                  <div key={a} className="create-hotel-amenities-option">
+                    <input type="checkbox" value={a} {...register('amenities')} />
+                    <span>{a}</span>
+                  </div>
+                ))}
+              </div>
             </fieldset>
           </div>
 
-          <div className="form-group">
+          <div className="create-hotel-form-group">
             <label>Check-In:</label>
             <input type="time" {...register('checkInTime', { required: 'Hora de check-in obligatoria' })} />
             {errors.checkInTime && <span className="create-hotel-error">{errors.checkInTime.message}</span>}
           </div>
 
-          <div className="form-group">
+          <div className="create-hotel-form-group">
             <label>Check-Out:</label>
             <input type="time" {...register('checkOutTime', { required: 'Hora de check-out obligatoria' })} />
             {errors.checkOutTime && <span className="create-hotel-error">{errors.checkOutTime.message}</span>}
           </div>
 
-          <div className="form-group">
+          <div className="create-hotel-form-group">
             <label>Email:</label>
             <input
               type="email"
@@ -152,13 +154,13 @@ const CreateHotelModal = ({ isOpen, onClose, onCreate }) => {
             {errors.email && <span className="create-hotel-error">{errors.email.message}</span>}
           </div>
 
-          <div className="form-group">
+          <div className="create-hotel-form-group">
             <label>Teléfono:</label>
             <input {...register('phone', { maxLength: 20 })} />
             {errors.phone && <span className="create-hotel-error">{errors.phone.message}</span>}
           </div>
 
-          <div className="modal-actions">
+          <div className="create-hotel-modal-actions">
             <button type="submit">Crear</button>
             <button type="button" onClick={() => { reset(); setImagePreview(''); onClose(); }}>Cancelar</button>
           </div>

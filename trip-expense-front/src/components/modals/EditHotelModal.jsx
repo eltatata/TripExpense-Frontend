@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import api from '../../services/api';
-import './EditHotelModal.css'; 
+import './EditHotelModal.css';
 
 const amenitiesList = ['Wi-Fi', 'Piscina', 'Gimnasio', 'Desayuno', 'Aire acondicionado', 'Spa', 'Estacionamiento', 'Restaurante', 'Bar'];
 
@@ -77,18 +77,18 @@ const EditHotelModal = ({ isOpen, onClose, onUpdate, hotelToEdit }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="create-hotel-modal-overlay">
-      <div className="create-hotel-modal-container">
+    <div className="edit-hotel-modal-overlay">
+      <div className="edit-hotel-modal-container">
         <h2>Editar Hotel</h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="create-hotel-modal-form">
+        <form onSubmit={handleSubmit(onSubmit)} className="edit-hotel-modal-form">
 
-          <div className="form-group">
+          <div className="edit-hotel-form-group">
             <label>Nombre:</label>
             <input {...register('name', { required: 'El nombre es obligatorio', maxLength: 100 })} />
-            {errors.name && <span className="create-hotel-error">{errors.name.message}</span>}
+            {errors.name && <span className="edit-hotel-error">{errors.name.message}</span>}
           </div>
 
-          <div className="form-group">
+          <div className="edit-hotel-form-group">
             <label>Ciudad:</label>
             <select {...register('city', { required: 'La ciudad es obligatoria' })}>
               <option value="" disabled>Seleccione una ciudad</option>
@@ -96,16 +96,16 @@ const EditHotelModal = ({ isOpen, onClose, onUpdate, hotelToEdit }) => {
                 <option key={city.cityId} value={city.cityId}>{city.name}</option>
               ))}
             </select>
-            {errors.city && <span className="create-hotel-error">{errors.city.message}</span>}
+            {errors.city && <span className="edit-hotel-error">{errors.city.message}</span>}
           </div>
 
-          <div className="form-group">
+          <div className="edit-hotel-form-group">
             <label>Dirección:</label>
             <input {...register('address', { required: 'La dirección es obligatoria', maxLength: 255 })} />
-            {errors.address && <span className="create-hotel-error">{errors.address.message}</span>}
+            {errors.address && <span className="edit-hotel-error">{errors.address.message}</span>}
           </div>
 
-          <div className="form-group image-file">
+          <div className="edit-hotel-form-group edit-hotel-image-file">
             <label>Imagen:</label>
             <input type="file" onChange={handleImageChange} />
             {imagePreview && <img src={imagePreview} alt="Vista previa" style={{ width: '100px' }} />}
@@ -119,7 +119,7 @@ const EditHotelModal = ({ isOpen, onClose, onUpdate, hotelToEdit }) => {
             }
           })} />
 
-          <div className="form-group">
+          <div className="edit-hotel-form-group">
             <label>Estrellas:</label>
             <select
               {...register('stars', {
@@ -132,19 +132,19 @@ const EditHotelModal = ({ isOpen, onClose, onUpdate, hotelToEdit }) => {
                 <option key={n} value={n}>{n} estrella{n > 1 && 's'}</option>
               ))}
             </select>
-            {errors.stars && <span className="create-hotel-error">{errors.stars.message}</span>}
+            {errors.stars && <span className="edit-hotel-error">{errors.stars.message}</span>}
           </div>
 
-          <div className="form-group">
+          <div className="edit-hotel-form-group">
             <label>Descripción:</label>
             <textarea {...register('description')} />
           </div>
 
-          <div className="form-group">
+          <div className="edit-hotel-form-group">
             <fieldset>
               <legend>Amenities:</legend>
               {amenitiesList.map(a => (
-                <div key={a} className="amenities-option">
+                <div key={a} className="edit-hotel-amenities-option">
                   <input type="checkbox" value={a} {...register('amenities')} />
                   <span>{a}</span>
                 </div>
@@ -152,19 +152,19 @@ const EditHotelModal = ({ isOpen, onClose, onUpdate, hotelToEdit }) => {
             </fieldset>
           </div>
 
-          <div className="form-group">
+          <div className="edit-hotel-form-group">
             <label>Check-In:</label>
             <input type="time" {...register('checkInTime', { required: 'Hora de check-in obligatoria' })} />
-            {errors.checkInTime && <span className="create-hotel-error">{errors.checkInTime.message}</span>}
+            {errors.checkInTime && <span className="edit-hotel-error">{errors.checkInTime.message}</span>}
           </div>
 
-          <div className="form-group">
+          <div className="edit-hotel-form-group">
             <label>Check-Out:</label>
             <input type="time" {...register('checkOutTime', { required: 'Hora de check-out obligatoria' })} />
-            {errors.checkOutTime && <span className="create-hotel-error">{errors.checkOutTime.message}</span>}
+            {errors.checkOutTime && <span className="edit-hotel-error">{errors.checkOutTime.message}</span>}
           </div>
 
-          <div className="form-group">
+          <div className="edit-hotel-form-group">
             <label>Email:</label>
             <input
               type="email"
@@ -177,16 +177,16 @@ const EditHotelModal = ({ isOpen, onClose, onUpdate, hotelToEdit }) => {
                 }
               })}
             />
-            {errors.email && <span className="create-hotel-error">{errors.email.message}</span>}
+            {errors.email && <span className="edit-hotel-error">{errors.email.message}</span>}
           </div>
 
-          <div className="form-group">
+          <div className="edit-hotel-form-group">
             <label>Teléfono:</label>
             <input {...register('phone', { maxLength: 20 })} />
-            {errors.phone && <span className="create-hotel-error">{errors.phone.message}</span>}
+            {errors.phone && <span className="edit-hotel-error">{errors.phone.message}</span>}
           </div>
 
-          <div className="modal-actions">
+          <div className="edit-hotel-modal-actions">
             <button type="submit">Guardar cambios</button>
             <button type="button" onClick={() => { reset(); setImagePreview(''); onClose(); }}>Cancelar</button>
           </div>

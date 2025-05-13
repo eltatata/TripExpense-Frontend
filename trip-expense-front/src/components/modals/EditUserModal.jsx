@@ -11,6 +11,8 @@ const EditUserModal = ({ isOpen, onClose, onUpdate, userData }) => {
     formState: { errors }
   } = useForm();
 
+  const roleOptions = ['ADMIN', 'CLIENT'];
+  
   useEffect(() => {
     if (userData) {
       setValue("firstName", userData.firstName);
@@ -109,14 +111,18 @@ const EditUserModal = ({ isOpen, onClose, onUpdate, userData }) => {
               {errors.password && <span className="create-user-error">{errors.password.message}</span>}
             </label>
 
-            <label>
+             <label>
               Rol:
-              <input
-                type="text"
-                {...register("role", {
-                  required: "El rol es obligatorio"
-                })}
-              />
+              <select
+                {...register('role', { required: 'El rol es obligatorio' })}
+              >
+                <option value="">Seleccione un rol</option>
+                {roleOptions.map((role, index) => (
+                  <option key={index} value={role}>
+                    {role}
+                  </option>
+                ))}
+              </select>
               {errors.role && <span className="create-user-error">{errors.role.message}</span>}
             </label>
 
