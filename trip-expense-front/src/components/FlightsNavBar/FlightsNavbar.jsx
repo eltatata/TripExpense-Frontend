@@ -7,22 +7,22 @@ import "./FlightsNavbar.css";
 const FlightsNavbar = () => {
     const navigate = useNavigate();
 
-    const handleLoginClick = () => {
-        navigate("/login");
+    const handleLogoClick = () => {
+        navigate("/");
     };
 
-    const handleSignupClick = () => {
-        navigate("/signup");
+    const handleHotelsClick = () => {
+        navigate("/hotels");
     };
 
     return (
         <nav className="hnav-container">
             <div className="hnav-flightshotels">
                 <button className="hnav-button active"> Encuentra Vuelos </button>
-                <button className="hnav-button"> Encuentra Hoteles </button>
+                <button className="hnav-button" onClick={handleHotelsClick}> Encuentra Hoteles </button>
             </div>
 
-            <div className="hnav-logo">
+            <div className="hnav-logo" onClick={handleLogoClick}>
                 <img src={Logo} alt="TripExpense Logo" />
             </div>
 

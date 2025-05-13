@@ -68,6 +68,20 @@
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.su-input-group input:invalid,
+.su-input-group input.error {
+    border: 1px solid red;
+}
+
+.su-error {
+    color: red;
+    font-size: 0.750rem;
+    margin-top: 2px;
+    margin-left: 2px;
 }
 
 .su-input-group input {
