@@ -1,0 +1,102 @@
+.flights-options-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  gap: 20px;
+  font-family: sans-serif;
+}
+
+.flights-options-card-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  min-width: 180px;
+}
+
+.flights-options-logo {
+  width: 60px;
+  height: auto;
+  border-radius: 8px;
+}
+
+.flights-options-airline {
+  margin: 0;
+  font-size: 18px;
+  color: #404040;
+}
+
+.flights-options-number {
+  font-size: 14px;
+  color: #666;
+}
+
+.flights-options-card-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 40px;
+  flex: 1;
+}
+
+.flights-options-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.flights-options-label {
+  font-weight: bold;
+  font-size: 14px;
+  color: #444;
+}
+
+.flights-options-info {
+  font-size: 14px;
+  color: #555;
+}
+
+.flights-options-duration {
+  font-size: 14px;
+  font-weight: bold;
+  align-self: center;
+  color: #333;
+}
+
+.flights-options-card-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  min-width: 120px;
+}
+
+.flights-options-price {
+  font-size: 20px;
+  font-weight: bold;
+  color: #e91e63;
+}
+
+.flights-options-btn {
+  background-color: #E38C4D;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+
+.flights-options-btn:hover {
+  background-color: #388e3c;
+}
+
+.flights-options-loading,
+.flights-options-error {
+  font-size: 16px;
+  padding: 20px;
+}

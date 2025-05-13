@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import "./LoginPage.css"
-import image1 from "../../assets/image1.jpg"
-import image2 from "../../assets/image2.jpg"
-import image3 from "../../assets/image3.jpg"
+import "./LoginPage.css";
+import image1 from "../../assets/image1.jpg";
+import image2 from "../../assets/image2.jpg";
+import image3 from "../../assets/image3.jpg";
 import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
 
@@ -11,6 +11,8 @@ const images = [image1, image2, image3];
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const navigate = useNavigate();
 
@@ -20,6 +22,32 @@ const LoginPage = () => {
     }, 5000);
     return () => clearInterval(interval);
   }, []);
+
+  const validateForm = () => {
+    let valid = true;
+
+    if (!email.trim()) {
+      setEmailError("* El correo es obligatorio");
+      valid = false;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      setEmailError("* El correo no es válido");
+      valid = false;
+    } else {
+      setEmailError("");
+    }
+
+    if (!password.trim()) {
+      setPasswordError("* La contraseña es obligatoria");
+      valid = false;
+    } else if (password.length < 6) {
+      setPasswordError("* La contraseña debe tener al menos 6 caracteres");
+      valid = false;
+    } else {
+      setPasswordError("");
+    }
+
+    return valid;
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -31,11 +59,15 @@ const LoginPage = () => {
       });
 
       if (response.status === 200) {
-        navigate("/home");
+        const user = response.data.userDTO;
+        localStorage.setItem("user", JSON.stringify(user));
+        user.role === "ADMIN" ? navigate("/admin") : navigate("/home");
       }
     } catch (error) {
-        console.error('Error al iniciar sesión: ', error)
-    }
+      console.error("Error al iniciar sesión: ", error);
+        navigate("/home");
+      }
+    } 
   };
 
   return (
@@ -57,20 +89,42 @@ const LoginPage = () => {
         <div className="lp-form-container">
           <h2>Iniciar Sesión</h2>
           <p>Ingresa tus datos para acceder.</p>
-          <form>
-            <div className="lp-input-group">
-              <input type="email" name="email" placeholder="Correo electrónico" value={email}
-                onChange={(e) => setEmail(e.target.value)} />
-            </div>
-            <div className="lp-input-group">
-              <input type="password" name="password" placeholder="Contraseña" value={password}
-                onChange={(e) => setPassword(e.target.value)} />
-            </div>
 
-            <button type="submit" className="lp-button" onClick={handleLogin}>Iniciar Sesión</button>
+          <form onSubmit={handleLogin}>
+
+            <div className="lp-input-group">
+              <input
+                type="email"
+                name="email"
+                placeholder="Correo electrónico"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={emailError ? "error" : ""}
+              />
+            </div>
+            {emailError && <p className="lp-error-message">{emailError}</p>}
+
+            <div className="lp-input-group">
+              <input
+                type="password"
+                name="password"
+                placeholder="Contraseña"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className={passwordError ? "error" : ""}
+              />
+            </div>
+            {passwordError && <p className="lp-error-message">{passwordError}</p>}
+
+            <button type="submit" className="lp-button">
+              Iniciar Sesión
+            </button>
 
             <p className="lp-register-text">
-              ¿No tienes cuenta? <a href="/signup" className="lp-register-link">Regístrate</a>
+              ¿No tienes cuenta?{" "}
+              <a href="/signup" className="lp-register-link">
+                Regístrate
+              </a>
             </p>
           </form>
         </div>

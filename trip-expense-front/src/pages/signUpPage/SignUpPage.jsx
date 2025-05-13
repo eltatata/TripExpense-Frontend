@@ -10,11 +10,13 @@ const images = [image1, image2, image3];
 
 const SignUpPage = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [errorMessage, setErrorMessage] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -24,30 +26,17 @@ const SignUpPage = () => {
         return () => clearInterval(interval);
     }, []);
 
-    const handleSignUp = async (e) => {
-        e.preventDefault();
-    
+    const onSubmit = async (data) => {
         try {
-          const response = await api.post("/auth/signup", {
-            firstName,
-            lastName,
-            phone,
-            email,
-            password,
-          });
-    
-          if (response.status === 200 || response.status === 201 ) {
-            setFirstName("");
-            setLastName("");
-            setPhone("");
-            setEmail("");
-            setPassword("");
-          
-            navigate("/login");
-          }
-        }  catch (error) {
+            const response = await api.post("/auth/signup", data);
+
+            if (response.status === 200 || response.status === 201) {
+                reset(); 
+                navigate("/login");
+            }
+        } catch (error) {
             if (error.response && error.response.status === 409) {
-              setErrorMessage("El correo ya está registrado.");
+                setErrorMessage("*El correo ya está registrado.");
             } else {
               setErrorMessage("Error inesperado. Intenta de nuevo.");
             }
@@ -77,26 +66,111 @@ const SignUpPage = () => {
                     <p>Completa el formulario para crear tu cuenta.</p>
                     <form>
                         <div className="su-input-group">
-                            <input type="text" name="nombre" placeholder ="Nombre"value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)} />
+                            <input
+                                type="text"
+                                {...register("firstName", {
+                                    required: "*El nombre es obligatorio",
+                                    minLength: {
+                                        value: 3,
+                                        message: "*Ingrese como mínimo 3 caracteres"
+                                    },
+                                    maxLength: {
+                                        value: 15,
+                                        message: "*Ingrese como máximo 15 caracteres"
+                                    },
+                                    pattern: {
+                                        value: /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/,
+                                        message: "*Ingrese un nombre valido (Solo letras)"
+                                    }
+                                })}
+                                placeholder="Nombre"
+                                className={errors.firstName ? "error" : ""}
+                            />
+                            {errors.firstName && <p className="su-error">{errors.firstName.message}</p>}
+                        </div>
+
+                        <div className="su-input-group">
+                            <input
+                                type="text"
+                                {...register("lastName", {
+                                    required: "*El apellido es obligatorio",
+                                    minLength: {
+                                        value: 3,
+                                        message: "*Ingrese como mínimo 3 caracteres"
+                                    },
+                                    maxLength: {
+                                        value: 15,
+                                        message: "*Ingrese como máximo 15 caracteres"
+                                    },
+                                    pattern: {
+                                        value: /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/,
+                                        message: "*Ingrese un apellido valido (Solo letras)"
+                                    }
+                                })}
+                                placeholder="Apellido"
+                                className={errors.lastName ? "error" : ""}
+                            />
+                            {errors.lastName && <p className="su-error">{errors.lastName.message}</p>}
+
                         </div>
                         <div className="su-input-group">
-                            <input type="text" name="apellido" placeholder="Apellido" value={lastName}
-                           onChange={(e) => setLastName(e.target.value)}/>
+
+                            <input
+                                type="text"
+                                {...register("phone", {
+                                    required: "*El celular es obligatorio",
+                                    pattern: {
+                                        value: /^[0-9]{7,14}$/,
+                                        message: "*El número debe tener entre 7 y 14 dígitos"
+                                    }
+                                })}
+                                placeholder="Celular"
+                                className={errors.phone ? "error" : ""}
+                            />
+                            {errors.phone && <p className="su-error">{errors.phone.message}</p>}
+
                         </div>
                         <div className="su-input-group">
-                            <input type="text" name="phone" placeholder="Celular" value={phone}
-                           onChange={(e) => setPhone(e.target.value)}/>
+
+                            <input
+                                type="email"
+                                {...register("email", {
+                                    required: "*El correo es obligatorio",
+                                    pattern: {
+                                        value: /\S+@\S+\.\S+/,
+                                        message: "Correo no válido"
+                                    }
+                                })}
+                                placeholder="Correo electrónico"
+                                className={errors.email ? "error" : ""}
+                            />
+                            {errors.email && <p className="su-error">{errors.email.message}</p>}
+
                         </div>
                         <div className="su-input-group">
-                            <input type="email" name="email" placeholder="Correo electrónico" value={email}
-                           onChange={(e) => setEmail(e.target.value)}/>
+
+                            <input
+                                type="password"
+                                {...register("password", {
+                                    required: "*La contraseña es obligatoria",
+                                    minLength: {
+                                        value: 6,
+                                        message: "*Debe tener mínimo 6 caracteres"
+                                    }
+                                })}
+                                placeholder="Contraseña"
+                                className={errors.password ? "error" : ""}
+                            />
+                            {errors.password && <p className="su-error">{errors.password.message}</p>}
                         </div>
-                        <div className="su-input-group">
-                            <input type="password" name="password" placeholder="Contraseña" value={password}
-                           onChange={(e) => setPassword(e.target.value)}/>
-                        </div>
-                        <button type="submit" className="su-button" onClick={handleSignUp}>Crear cuenta</button>
+
+                        {errorMessage && <p className="su-error">{errorMessage}</p>}
+
+                        <button type="submit" className="su-button">
+                            Crear cuenta
+                        </button>
+
+
                         <p className="su-login-text">
                             ¿Ya tienes una cuenta? <a href="/login" className="su-login-link">Iniciar sesión</a>
                         </p>
