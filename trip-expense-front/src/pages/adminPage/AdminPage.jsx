@@ -35,7 +35,7 @@ const AdminPage = () => {
     <div className="admin-layout">
       <Sidebar setActiveSection={setActiveSection} activeSection={activeSection} />
       <div className="admin-content-area">
-        <Navbar />
+        <Navbar isAdmin={true}/>
         <div className="admin-content">{renderContent()}</div>
       </div>
     </div>

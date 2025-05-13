@@ -90,6 +90,7 @@ const LoginPage = () => {
           <h2>Iniciar Sesión</h2>
           <p>Ingresa tus datos para acceder.</p>
           <form onSubmit={handleLogin}>
+
             <div className="lp-input-group">
               <input
                 type="email"
