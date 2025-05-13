@@ -5,13 +5,13 @@ import logo from "../../assets/TripExpenseLogo.png";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const isAuthenticated = localStorage.getItem("user");
 
-  const handleLoginClick = () => {
+  const handleLoginClick = () => navigate("/login");
+  const handleSignupClick = () => navigate("/signup");
+  const handleLogoutClick = () => {
+    localStorage.removeItem("user");
     navigate("/login");
-  };
-
-  const handleSignupClick = () => {
-    navigate("/signup");
   };
 
   return (
@@ -20,12 +20,20 @@ const Navbar = () => {
         <img src={logo} alt="TripExpense Logo" />
       </div>
       <div className="nav__buttons">
-        <button className="nav__login__button" onClick={handleLoginClick}>
-          Iniciar Sesión
-        </button>
-        <button className="nav__signup__button" onClick={handleSignupClick}>
-          Registrarse
-        </button>
+        {isAuthenticated ? (
+          <button className="nav__logout__button" onClick={handleLogoutClick}>
+            Cerrar Sesión
+          </button>
+        ) : (
+          <>
+            <button className="nav__login__button" onClick={handleLoginClick}>
+              Iniciar Sesión
+            </button>
+            <button className="nav__signup__button" onClick={handleSignupClick}>
+              Registrarse
+            </button>
+          </>
+        )}
       </div>
     </nav>
   );

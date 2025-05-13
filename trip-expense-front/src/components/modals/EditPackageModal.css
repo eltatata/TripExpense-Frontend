@@ -1,0 +1,107 @@
+.edit-package-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.edit-package-modal-container {
+  background-color: #404040;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  max-height: 80vh;
+  overflow-y: auto; 
+}
+
+h2 {
+  text-align: center;
+  color: white;
+}
+
+.edit-package-modal-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-package-modal-form label {
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: whitesmoke;
+  display: block;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.edit-package-modal-form div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.edit-package-modal-form div label {
+  min-width: 120px; 
+  margin-right: 15px; 
+}
+
+.edit-package-modal-form input,
+.edit-package-modal-form textarea {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.edit-package-modal-form textarea{
+  resize: vertical;
+  min-height: 80px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.edit-package-error {
+  color: red;
+  font-size: 12px;
+}
+
+.edit-package-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.edit-package-modal-actions button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  flex: 1;
+  margin: 0 5px;
+}
+
+.edit-package-modal-actions button[type="submit"] {
+  background-color: #4caf50;
+  color: white;
+}
+
+.edit-package-modal-actions button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.edit-package-modal-actions button[type="button"] {
+  background-color: #f44336;
+  color: white;
+}
+
+.edit-package-modal-actions button[type="button"]:hover {
+  background-color: #d32f2f;
+}

@@ -78,11 +78,32 @@
     height: 30px;
   }
 
-  .nav__buttons {
-    right: 15px;
+  .nav__login__button,
+    position: absolute;
+    right: 20.5px; 
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
-  .nav__login__button,
+  
+  
+  .nav__login__button , .nav__logout__button{
+    color: white;
+    background: #404040;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    transition: 0.3s;
+  }
+
+  .nav__login__button:hover, .nav__logout__button:hover{
+    background-color: #595959;
+  }
+
   .nav__signup__button {
     padding: 6px 12px;
     font-size: 14px;
