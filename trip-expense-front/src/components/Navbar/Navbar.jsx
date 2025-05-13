@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./Navbar.css";
-import logo from "../../assets/TripExpenseLogo.png";
+import logo from "../../assets/LogoTripExpense1.jpg";
 
-const Navbar = () => {
+const Navbar = ({ isAdmin = false }) => {
   const navigate = useNavigate();
   const isAuthenticated = localStorage.getItem("user");
 
@@ -15,16 +15,16 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar">
-      <div className="navbar__logo">
+    <nav className={`navbar ${isAdmin ? "admin-navbar" : ""}`}>
+      <div className="navbar__logo" onClick={() => navigate("/")}>
         <img src={logo} alt="TripExpense Logo" />
       </div>
       <div className="nav__buttons">
-        {isAuthenticated ? (
+        {isAuthenticated && isAdmin ? (
           <button className="nav__logout__button" onClick={handleLogoutClick}>
             Cerrar Sesión
           </button>
-        ) : (
+        ) : !isAuthenticated ? (
           <>
             <button className="nav__login__button" onClick={handleLoginClick}>
               Iniciar Sesión
@@ -33,6 +33,10 @@ const Navbar = () => {
               Registrarse
             </button>
           </>
+        ) : (
+          <button className="nav__logout__button" onClick={handleLogoutClick}>
+            Cerrar Sesión
+          </button>
         )}
       </div>
     </nav>

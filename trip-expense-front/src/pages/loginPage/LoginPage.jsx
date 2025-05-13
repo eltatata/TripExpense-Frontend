@@ -64,7 +64,7 @@ const LoginPage = () => {
 
         <div className="lp-form-container">
           <h2>Iniciar Sesión</h2>
-          <p>Ingresa tus datos para acceder.</p>
+          <p>Ingresa tus datos para acceder</p>
           <form>
             <div className="lp-input-group">
               <input type="email" name="email" placeholder="Correo electrónico" value={email}
