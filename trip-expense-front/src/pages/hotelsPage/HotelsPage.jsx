@@ -10,14 +10,14 @@ const HotelsPage = () => {
     return (
         <div className="hp-page">
             <HotelsNavbar className="hp-navbar" />
-            <HotelsHero className="-hp-hero">
+            <HotelsHero className="hp-hero">
                 <HotelsSearch className="hp-form" />
             </HotelsHero>
             <div className="hp-places">
                 <HotelsPlaces />
             </div>
             <div className="hp-hotels">
-                <Hotels/>
+                <Hotels />
             </div>
         </div>
     );

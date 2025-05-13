@@ -1,17 +1,17 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import logo from "../../assets/TripExpenseLogo.png";
 
 const Navbar = () => {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleLoginClick = () => {
-    navigate("/login"); 
+    navigate("/login");
   };
 
   const handleSignupClick = () => {
-    navigate("/signup"); 
+    navigate("/signup");
   };
 
   return (
