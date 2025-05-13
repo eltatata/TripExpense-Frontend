@@ -1,99 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './CreateUserModal.css';
 import api from '../../services/api';
+import { useForm } from 'react-hook-form';
 
 const CreateUserModal = ({ isOpen, onClose, onCreate }) => {
-  const [newUser, setNewUser] = useState({
-    firstName: '',
-    lastName: '',
-    phone: '',
-    email: '',
-    password: '',
-    image: '',
-    role: '', 
-  });
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors }
+  } = useForm();
 
-  const [errors, setErrors] = useState({
-    firstName: '',
-    lastName: '',
-    phone: '',
-    email: '',
-    password: '',
-    image: '',
-    role: '', 
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewUser((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setNewUser((prevState) => ({
-        ...prevState,
-        image: URL.createObjectURL(file),
-      }));
-    }
-  };
-
-  const validateForm = () => {
-    let formIsValid = true;
-    let errors = {};
-
-    if (!newUser.firstName) {
-      formIsValid = false;
-      errors.firstName = 'El nombre es obligatorio';
-    }
-    if (!newUser.lastName) {
-      formIsValid = false;
-      errors.lastName = 'El apellido es obligatorio';
-    }
-    if (!newUser.phone) {
-      formIsValid = false;
-      errors.phone = 'El teléfono es obligatorio';
-    }
-    if (!newUser.email || !/\S+@\S+\.\S+/.test(newUser.email)) {
-      formIsValid = false;
-      errors.email = 'El correo electrónico es inválido';
-    }
-    if (!newUser.password) {
-      formIsValid = false;
-      errors.phone = 'La contraseña es obligatoria';
-    }
-    if (!newUser.role) {
-      formIsValid = false;
-      errors.phone = 'El rol es obligatorio';
-    }
-
-    setErrors(errors);
-    return formIsValid;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (validateForm()) {
-      try {
-        const response = await api.post("/users", newUser);
-        onCreate(response.data); 
-        setNewUser({
-          firstName: '',
-          lastName: '',
-          phone: '',
-          email: '',
-          password: '',
-          image: '',
-          role: '', 
-        });
-        onClose(); 
-      } catch (error) {
-        console.error("Error al crear el usuario:", error);
+  const onSubmit = async (data) => {
+    try {
+      if (data.image && data.image.length > 0) {
+        data.image = URL.createObjectURL(data.image[0]);
+      } else {
+        data.image = '';
       }
+
+      const response = await api.post("/users", data);
+      onCreate(response.data);
+      reset(); 
+      onClose();
+    } catch (error) {
+      console.error("Error al crear el usuario:", error);
     }
   };
 
@@ -102,91 +34,94 @@ const CreateUserModal = ({ isOpen, onClose, onCreate }) => {
       <div className="create-user-modal-overlay">
         <div className="create-user-modal-container">
           <h2>Crear Usuario</h2>
-          <form onSubmit={handleSubmit} className="create-user-modal-form">
+          <form onSubmit={handleSubmit(onSubmit)} className="create-user-modal-form">
             <label>
               Nombre:
               <input
                 type="text"
-                name="firstName"
-                value={newUser.firstName}
-                onChange={handleChange}
-                required
+                {...register("firstName", {
+                  required: "El nombre es obligatorio",
+                  minLength: { value: 2, message: "Mínimo 2 caracteres" }
+                })}
               />
-              {errors.firstName && <span className="create-user-error">{errors.firstName}</span>}
+              {errors.firstName && <span className="create-user-error">{errors.firstName.message}</span>}
             </label>
 
             <label>
               Apellido:
               <input
                 type="text"
-                name="lastName"
-                value={newUser.lastName}
-                onChange={handleChange}
-                required
+                {...register("lastName", {
+                  required: "El apellido es obligatorio",
+                  minLength: { value: 2, message: "Mínimo 2 caracteres" }
+                })}
               />
-              {errors.lastName && <span className="create-user-error">{errors.lastName}</span>}
+              {errors.lastName && <span className="create-user-error">{errors.lastName.message}</span>}
             </label>
 
             <label>
               Teléfono:
               <input
                 type="text"
-                name="phone"
-                value={newUser.phone}
-                onChange={handleChange}
-                required
+                {...register("phone", {
+                  required: "El teléfono es obligatorio",
+                  pattern: { value: /^[0-9]+$/, message: "Solo números" },
+                  minLength: { value: 7, message: "Mínimo 7 dígitos" },
+                  maxLength: { value: 15, message: "Máximo 15 dígitos" }
+                })}
               />
-              {errors.phone && <span className="create-user-error">{errors.phone}</span>}
+              {errors.phone && <span className="create-user-error">{errors.phone.message}</span>}
             </label>
 
             <label>
               Email:
               <input
                 type="email"
-                name="email"
-                value={newUser.email}
-                onChange={handleChange}
-                required
+                {...register("email", {
+                  required: "El correo es obligatorio",
+                  pattern: {
+                    value: /^\S+@\S+\.\S+$/,
+                    message: "Correo inválido"
+                  }
+                })}
               />
-              {errors.email && <span className="create-user-error">{errors.email}</span>}
+              {errors.email && <span className="create-user-error">{errors.email.message}</span>}
             </label>
 
             <label>
               Contraseña:
               <input
                 type="password"
-                name="password"
-                value={newUser.password}
-                onChange={handleChange}
-                required
+                {...register("password", {
+                  required: "La contraseña es obligatoria",
+                  minLength: { value: 6, message: "Mínimo 6 caracteres" }
+                })}
               />
-              {errors.email && <span className="create-user-error">{errors.password}</span>}
+              {errors.password && <span className="create-user-error">{errors.password.message}</span>}
             </label>
 
             <label>
               Rol:
               <input
                 type="text"
-                name="role"
-                value={newUser.role}
-                onChange={handleChange}
-                required
+                {...register("role", {
+                  required: "El rol es obligatorio"
+                })}
               />
-              {errors.email && <span className="create-user-error">{errors.role}</span>}
+              {errors.role && <span className="create-user-error">{errors.role.message}</span>}
             </label>
 
             <label>
               Imagen:
               <input
                 type="file"
-                name="image"
-                onChange={handleImageChange}
+                {...register("image")}
               />
             </label>
 
             <div className="create-user-modal-actions">
               <button type="submit">Crear</button>
-              <button type="button" onClick={onClose}>Cancelar</button>
+              <button type="button" onClick={() => { reset(); onClose(); }}>Cancelar</button>
             </div>
           </form>
         </div>

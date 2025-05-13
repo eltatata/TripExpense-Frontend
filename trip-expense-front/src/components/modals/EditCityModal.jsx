@@ -1,107 +1,27 @@
 import React, { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import './EditCityModal.css';
 import api from '../../services/api';
 
 const EditCityModal = ({ isOpen, onClose, onUpdate, cityToEdit }) => {
-  const [updatedCity, setUpdatedCity] = useState({
-    name: '',
-    country: '',
-    description: '',
-    image: '',
-    language: '',
-    currency: '',
-    climate: '',
-    bestTimeToVisit: '',
-  });
-
-  const [errors, setErrors] = useState({
-    name: '',
-    country: '',
-    description: '',
-    language: '',
-    currency: '',
-    climate: '',
-    bestTimeToVisit: '',
-  });
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const [climateOptions] = useState([
+    'Tropical', 'Seco', 'Templado', 'Frío', 'Polar'
+  ]);
 
   useEffect(() => {
     if (cityToEdit) {
-      setUpdatedCity({ ...cityToEdit });
+      reset(cityToEdit);
     }
-  }, [cityToEdit]);
+  }, [cityToEdit, reset]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUpdatedCity((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setUpdatedCity((prevState) => ({
-        ...prevState,
-        image: URL.createObjectURL(file),
-      }));
-    }
-  };
-
-  const validateForm = () => {
-    let formIsValid = true;
-    let errors = {};
-
-    if (!updatedCity.name.trim()) {
-      formIsValid = false;
-      errors.name = 'El nombre es obligatorio';
-    }
-
-    if (!updatedCity.country.trim()) {
-      formIsValid = false;
-      errors.country = 'El país es obligatorio';
-    }
-
-    if (!updatedCity.description.trim()) {
-      formIsValid = false;
-      errors.description = 'La descripción es obligatoria';
-    }
-
-    if (!updatedCity.language.trim()) {
-      formIsValid = false;
-      errors.language = 'El idioma es obligatorio';
-    }
-
-    if (!updatedCity.currency.trim()) {
-      formIsValid = false;
-      errors.currency = 'La moneda es obligatoria';
-    }
-
-    if (!updatedCity.climate.trim()) {
-      formIsValid = false;
-      errors.climate = 'El clima es obligatorio';
-    }
-
-    if (!updatedCity.bestTimeToVisit.trim()) {
-      formIsValid = false;
-      errors.bestTimeToVisit = 'Este campo es obligatorio';
-    }
-
-    setErrors(errors);
-    return formIsValid;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (validateForm()) {
-      try {
-        const response = await api.put(`/cities/${cityToEdit.cityId}`, updatedCity);
-        onUpdate(response.data);
-        onClose();
-      } catch (error) {
-        console.error('Error al actualizar la ciudad:', error);
-      }
+  const onSubmit = async (updatedCity) => {
+    try {
+      const response = await api.put(`/cities/${cityToEdit.cityId}`, updatedCity);
+      onUpdate(response.data);
+      onClose();
+    } catch (error) {
+      console.error('Error al actualizar la ciudad:', error);
     }
   };
 
@@ -110,93 +30,79 @@ const EditCityModal = ({ isOpen, onClose, onUpdate, cityToEdit }) => {
       <div className="edit-city-modal-overlay">
         <div className="edit-city-modal-container">
           <h2>Editar Ciudad</h2>
-          <form onSubmit={handleSubmit} className="edit-city-modal-form">
+          <form onSubmit={handleSubmit(onSubmit)} className="edit-city-modal-form">
             <label>
               Nombre:
               <input
                 type="text"
-                name="name"
-                value={updatedCity.name}
-                onChange={handleChange}
-                required
+                {...register('name', { required: 'El nombre es obligatorio' })}
               />
-              {errors.name && <span className="edit-city-error">{errors.name}</span>}
+              {errors.name && <span className="edit-city-error">{errors.name.message}</span>}
             </label>
 
             <label>
               País:
               <input
                 type="text"
-                name="country"
-                value={updatedCity.country}
-                onChange={handleChange}
-                required
+                {...register('country', { required: 'El país es obligatorio' })}
               />
-              {errors.country && <span className="edit-city-error">{errors.country}</span>}
+              {errors.country && <span className="edit-city-error">{errors.country.message}</span>}
             </label>
 
             <label>
               Descripción:
               <textarea
-                name="description"
-                value={updatedCity.description}
-                onChange={handleChange}
-                required
+                {...register('description', { required: 'La descripción es obligatoria' })}
               />
-              {errors.description && <span className="edit-city-error">{errors.description}</span>}
+              {errors.description && <span className="edit-city-error">{errors.description.message}</span>}
             </label>
 
             <label>
               Idioma:
               <input
                 type="text"
-                name="language"
-                value={updatedCity.language}
-                onChange={handleChange}
-                required
+                {...register('language', { required: 'El idioma es obligatorio' })}
               />
-              {errors.language && <span className="edit-city-error">{errors.language}</span>}
+              {errors.language && <span className="edit-city-error">{errors.language.message}</span>}
             </label>
 
             <label>
               Moneda:
               <input
                 type="text"
-                name="currency"
-                value={updatedCity.currency}
-                onChange={handleChange}
-                required
+                {...register('currency', { required: 'La moneda es obligatoria' })}
               />
-              {errors.currency && <span className="edit-city-error">{errors.currency}</span>}
+              {errors.currency && <span className="edit-city-error">{errors.currency.message}</span>}
             </label>
 
             <label>
               Clima:
-              <input
-                type="text"
-                name="climate"
-                value={updatedCity.climate}
-                onChange={handleChange}
-                required
-              />
-              {errors.climate && <span className="edit-city-error">{errors.climate}</span>}
+              <select {...register('climate', { required: 'El clima es obligatorio' })}>
+                <option value="">Selecciona un clima</option>
+                {climateOptions.map((climate) => (
+                  <option key={climate} value={climate}>
+                    {climate}
+                  </option>
+                ))}
+              </select>
+              {errors.climate && <span className="edit-city-error">{errors.climate.message}</span>}
             </label>
 
             <label>
               Mejor época para visitar:
               <input
                 type="text"
-                name="bestTimeToVisit"
-                value={updatedCity.bestTimeToVisit}
-                onChange={handleChange}
-                required
+                {...register('bestTimeToVisit', { required: 'Este campo es obligatorio' })}
               />
-              {errors.bestTimeToVisit && <span className="edit-city-error">{errors.bestTimeToVisit}</span>}
+              {errors.bestTimeToVisit && <span className="edit-city-error">{errors.bestTimeToVisit.message}</span>}
             </label>
 
             <label>
               Imagen:
-              <input type="file" name="image" onChange={handleImageChange} />
+              <input
+                type="file"
+                {...register('image')}
+              />
             </label>
 
             <div className="edit-city-modal-actions">

@@ -74,6 +74,7 @@ h2 {
   cursor: pointer;
   flex: 1;
   margin: 0 5px;
+  font-weight: bold;
 }
 
 .create-user-modal-actions button[type="submit"] {

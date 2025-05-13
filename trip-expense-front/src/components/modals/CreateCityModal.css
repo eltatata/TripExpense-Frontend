@@ -35,7 +35,8 @@
 }
 
 .create-city-modal-form input,
-.create-city-modal-form textarea {
+.create-city-modal-form textarea,
+.create-city-modal-form select {
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -71,6 +72,7 @@
   cursor: pointer;
   flex: 1;
   margin: 0 5px;
+  font-weight: bold;
 }
 
 .create-city-modal-actions button[type="submit"] {

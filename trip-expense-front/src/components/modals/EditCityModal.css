@@ -25,7 +25,6 @@
 .edit-city-modal-container h2 {
   margin-bottom: 1.5rem;
   text-align: center;
-  
 }
 
 .edit-city-modal-form label {
@@ -33,11 +32,11 @@
   margin-bottom: 1rem;
   font-weight: bold;
   color: whitesmoke;
-  font-family: 'Montserrat', sans-serif;
 }
 
 .edit-city-modal-form input,
-.edit-city-modal-form textarea {
+.edit-city-modal-form textarea,
+.edit-city-modal-form select {
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -49,7 +48,7 @@
 .edit-city-modal-form textarea {
   resize: vertical;
   min-height: 80px;
-  
+  font-family: 'Montserrat', sans-serif;
 }
 
 .edit-city-error {
@@ -73,6 +72,7 @@
   cursor: pointer;
   flex: 1;
   margin: 0 5px;
+  font-weight: bold;
 }
 
 .edit-city-modal-actions button[type="submit"] {

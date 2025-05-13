@@ -1,71 +1,53 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import './CreateFlightModal.css';
 import api from '../../services/api';
 
 const CreateFlightModal = ({ isOpen, onClose, onCreate }) => {
-  const [newFlight, setNewFlight] = useState({
-    airline: '',
-    flightNumber: '',
-    origin: '',
-    destination: '',
-    departure: '',
-    arrival: '',
-    duration: '',
-    logo: '',
-  });
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const [cities, setCities] = useState([]);
+  const [logoUrl, setLogoUrl] = useState('');
 
-  const [errors, setErrors] = useState({});
+  useEffect(() => {
+    const fetchCities = async () => {
+      try {
+        const response = await api.get('/cities');
+        setCities(response.data);
+      } catch (error) {
+        console.error('Error al cargar ciudades:', error);
+      }
+    };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewFlight((prev) => ({ ...prev, [name]: value }));
-  };
+    if (isOpen) fetchCities();
+  }, [isOpen]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setNewFlight((prev) => ({
-        ...prev,
-        logo: URL.createObjectURL(file),
-      }));
+      setLogoUrl(URL.createObjectURL(file)); // NO se cambia esta lógica
     }
   };
 
-  const validateForm = () => {
-    const errs = {};
-    let valid = true;
+  const onSubmit = async (data) => {
+    try {
+      const payload = {
+        airline: data.airline,
+        airlineLogoUrl: logoUrl,
+        flightNumber: data.flightNumber,
+        departureCity: { cityId: parseInt(data.departureCityId) },
+        arrivalCity: { cityId: parseInt(data.arrivalCityId) },
+        departureDateTime: data.departureDateTime,
+        arrivalDateTime: data.arrivalDateTime,
+        durationMinutes: parseInt(data.durationMinutes),
+      };
 
-    ['airline', 'flightNumber', 'origin', 'destination', 'departure', 'arrival', 'duration'].forEach((field) => {
-      if (!newFlight[field]) {
-        errs[field] = 'Campo obligatorio';
-        valid = false;
-      }
-    });
-
-    setErrors(errs);
-    return valid;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      try {
-        const res = await api.post('/flights', newFlight);
-        onCreate(res.data);
-        setNewFlight({
-          airline: '',
-          flightNumber: '',
-          origin: '',
-          destination: '',
-          departure: '',
-          arrival: '',
-          duration: '',
-          logo: '',
-        });
-        onClose();
-      } catch (error) {
-        console.error('Error al crear vuelo:', error);
-      }
+      const res = await api.post('/flights', payload);
+      onCreate(res.data);
+      reset();
+      setLogoUrl('');
+      onClose();
+    } catch (error) {
+      console.error('Error al crear vuelo:', error);
     }
   };
 
@@ -74,52 +56,93 @@ const CreateFlightModal = ({ isOpen, onClose, onCreate }) => {
       <div className="create-flight-modal-overlay">
         <div className="create-flight-modal-container">
           <h2>Crear Vuelo</h2>
-          <form onSubmit={handleSubmit} className="create-flight-modal-form">
+          <form onSubmit={handleSubmit(onSubmit)} className="create-flight-modal-form">
             <label>
               Aerolínea:
-              <input name="airline" value={newFlight.airline} onChange={handleChange} required />
-              {errors.airline && <span className="create-flight-error">{errors.airline}</span>}
+              <input
+                {...register('airline', {
+                  required: 'La aerolínea es obligatoria',
+                  maxLength: { value: 100, message: 'Máximo 100 caracteres' }
+                })}
+              />
+              {errors.airline && <span className="create-flight-error">{errors.airline.message}</span>}
             </label>
 
             <label>
               Número de vuelo:
-              <input name="flightNumber" value={newFlight.flightNumber} onChange={handleChange} required />
-              {errors.flightNumber && <span className="create-flight-error">{errors.flightNumber}</span>}
+              <input
+                {...register('flightNumber', {
+                  required: 'El número de vuelo es obligatorio',
+                  maxLength: { value: 20, message: 'Máximo 20 caracteres' }
+                })}
+              />
+              {errors.flightNumber && <span className="create-flight-error">{errors.flightNumber.message}</span>}
             </label>
 
             <label>
-              Origen:
-              <input name="origin" value={newFlight.origin} onChange={handleChange} required />
-              {errors.origin && <span className="create-flight-error">{errors.origin}</span>}
+              Ciudad de origen:
+              <select
+                {...register('departureCityId', { required: 'Ciudad de origen obligatoria' })}
+              >
+                <option value="">Seleccione una ciudad de origen</option>
+                {cities.map(city => (
+                  <option key={city.cityId} value={city.cityId}>{city.name}</option>
+                ))}
+              </select>
+              {errors.departureCityId && <span className="create-flight-error">{errors.departureCityId.message}</span>}
             </label>
 
             <label>
-              Destino:
-              <input name="destination" value={newFlight.destination} onChange={handleChange} required />
-              {errors.destination && <span className="create-flight-error">{errors.destination}</span>}
+              Ciudad de destino:
+              <select
+                {...register('arrivalCityId', { required: 'Ciudad de destino obligatoria' })}
+              >
+                <option value="">Seleccione una ciudad de destino</option>
+                {cities.map(city => (
+                  <option key={city.cityId} value={city.cityId}>{city.name}</option>
+                ))}
+              </select>
+              {errors.arrivalCityId && <span className="create-flight-error">{errors.arrivalCityId.message}</span>}
             </label>
 
             <label>
               Salida:
-              <input name="departure" type="datetime-local" value={newFlight.departure} onChange={handleChange} required />
-              {errors.departure && <span className="create-flight-error">{errors.departure}</span>}
+              <input
+                type="datetime-local"
+                {...register('departureDateTime', { required: 'La hora de salida es obligatoria' })}
+              />
+              {errors.departureDateTime && <span className="create-flight-error">{errors.departureDateTime.message}</span>}
             </label>
 
             <label>
               Llegada:
-              <input name="arrival" type="datetime-local" value={newFlight.arrival} onChange={handleChange} required />
-              {errors.arrival && <span className="create-flight-error">{errors.arrival}</span>}
+              <input
+                type="datetime-local"
+                {...register('arrivalDateTime', { required: 'La hora de llegada es obligatoria' })}
+              />
+              {errors.arrivalDateTime && <span className="create-flight-error">{errors.arrivalDateTime.message}</span>}
             </label>
 
             <label>
               Duración (min):
-              <input name="duration" type="number" value={newFlight.duration} onChange={handleChange} required />
-              {errors.duration && <span className="create-flight-error">{errors.duration}</span>}
+              <input
+                type="number"
+                {...register('durationMinutes', {
+                  required: 'La duración es obligatoria',
+                  valueAsNumber: true,
+                  min: { value: 1, message: 'La duración debe ser mayor a 0' }
+                })}
+              />
+              {errors.durationMinutes && <span className="create-flight-error">{errors.durationMinutes.message}</span>}
             </label>
 
             <label>
               Logo:
-              <input type="file" onChange={handleImageChange} />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
             </label>
 
             <div className="create-flight-modal-actions">

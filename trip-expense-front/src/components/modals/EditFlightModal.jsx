@@ -1,156 +1,164 @@
-import React, { useState, useEffect } from 'react';
-import './CreateUserModal.css';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import './CreateFlightModal.css';
 import api from '../../services/api';
 
 const EditFlightModal = ({ isOpen, onClose, onUpdate, flightToEdit }) => {
-  const [updatedFlight, setUpdatedFlight] = useState({
-    airline: '',
-    departureCity: '',
-    arrivalCity: '',
-    departureTime: '',
-    arrivalTime: '',
-    price: '',
-  });
+  const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm();
+  const [cities, setCities] = useState([]);
+  const [logoUrl, setLogoUrl] = useState('');
 
-  const [errors, setErrors] = useState({});
+  useEffect(() => {
+    const fetchCities = async () => {
+      try {
+        const response = await api.get('/cities');
+        setCities(response.data);
+      } catch (error) {
+        console.error('Error al cargar ciudades:', error);
+      }
+    };
+
+    if (isOpen) fetchCities();
+  }, [isOpen]);
 
   useEffect(() => {
     if (flightToEdit) {
-      setUpdatedFlight({
-        airline: flightToEdit.airline || '',
-        departureCity: flightToEdit.departureCity || '',
-        arrivalCity: flightToEdit.arrivalCity || '',
-        departureTime: flightToEdit.departureTime || '',
-        arrivalTime: flightToEdit.arrivalTime || '',
-        price: flightToEdit.price || '',
-      });
+      setValue('airline', flightToEdit.airline);
+      setValue('flightNumber', flightToEdit.flightNumber);
+      setValue('departureCityId', flightToEdit.departureCity.cityId);
+      setValue('arrivalCityId', flightToEdit.arrivalCity.cityId);
+      setValue('departureDateTime', flightToEdit.departureDateTime);
+      setValue('arrivalDateTime', flightToEdit.arrivalDateTime);
+      setValue('durationMinutes', flightToEdit.durationMinutes);
+      setLogoUrl(flightToEdit.airlineLogoUrl || '');
     }
-  }, [flightToEdit]);
+  }, [flightToEdit, setValue]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUpdatedFlight((prev) => ({ ...prev, [name]: value }));
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setLogoUrl(URL.createObjectURL(file));
+    }
   };
 
-  const validateForm = () => {
-    const newErrors = {};
-    let formIsValid = true;
+  const onSubmit = async (data) => {
+    try {
+      const payload = {
+        airline: data.airline,
+        airlineLogoUrl: logoUrl,
+        flightNumber: data.flightNumber,
+        departureCity: { cityId: parseInt(data.departureCityId) },
+        arrivalCity: { cityId: parseInt(data.arrivalCityId) },
+        departureDateTime: data.departureDateTime,
+        arrivalDateTime: data.arrivalDateTime,
+        durationMinutes: parseInt(data.durationMinutes),
+      };
 
-    if (!updatedFlight.airline) {
-      newErrors.airline = 'La aerolínea es obligatoria';
-      formIsValid = false;
-    }
-    if (!updatedFlight.departureCity) {
-      newErrors.departureCity = 'Ciudad de salida requerida';
-      formIsValid = false;
-    }
-    if (!updatedFlight.arrivalCity) {
-      newErrors.arrivalCity = 'Ciudad de llegada requerida';
-      formIsValid = false;
-    }
-    if (!updatedFlight.departureTime) {
-      newErrors.departureTime = 'Hora de salida requerida';
-      formIsValid = false;
-    }
-    if (!updatedFlight.arrivalTime) {
-      newErrors.arrivalTime = 'Hora de llegada requerida';
-      formIsValid = false;
-    }
-    if (!updatedFlight.price || isNaN(updatedFlight.price)) {
-      newErrors.price = 'Precio válido requerido';
-      formIsValid = false;
-    }
-
-    setErrors(newErrors);
-    return formIsValid;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      try {
-        const response = await api.put(`/flights/${flightToEdit.id}`, updatedFlight);
-        onUpdate(response.data);
-        onClose();
-      } catch (error) {
-        console.error('Error al actualizar vuelo:', error);
-      }
+      const res = await api.put(`/flights/${flightToEdit.flightId}`, payload);
+      onUpdate(res.data);
+      reset();
+      setLogoUrl('');
+      onClose();
+    } catch (error) {
+      console.error('Error al actualizar vuelo:', error);
     }
   };
 
   return (
     isOpen && (
-      <div className="create-user-modal-overlay">
-        <div className="create-user-modal-container">
+      <div className="create-flight-modal-overlay">
+        <div className="create-flight-modal-container">
           <h2>Editar Vuelo</h2>
-          <form onSubmit={handleSubmit} className="create-user-modal-form">
+          <form onSubmit={handleSubmit(onSubmit)} className="create-flight-modal-form">
             <label>
               Aerolínea:
               <input
-                type="text"
-                name="airline"
-                value={updatedFlight.airline}
-                onChange={handleChange}
+                {...register('airline', {
+                  required: 'La aerolínea es obligatoria',
+                  maxLength: { value: 100, message: 'Máximo 100 caracteres' }
+                })}
               />
-              {errors.airline && <span className="create-user-error">{errors.airline}</span>}
+              {errors.airline && <span className="create-flight-error">{errors.airline.message}</span>}
             </label>
 
             <label>
-              Ciudad de Salida:
+              Número de vuelo:
               <input
-                type="text"
-                name="departureCity"
-                value={updatedFlight.departureCity}
-                onChange={handleChange}
+                {...register('flightNumber', {
+                  required: 'El número de vuelo es obligatorio',
+                  maxLength: { value: 20, message: 'Máximo 20 caracteres' }
+                })}
               />
-              {errors.departureCity && <span className="create-user-error">{errors.departureCity}</span>}
+              {errors.flightNumber && <span className="create-flight-error">{errors.flightNumber.message}</span>}
             </label>
 
             <label>
-              Ciudad de Llegada:
-              <input
-                type="text"
-                name="arrivalCity"
-                value={updatedFlight.arrivalCity}
-                onChange={handleChange}
-              />
-              {errors.arrivalCity && <span className="create-user-error">{errors.arrivalCity}</span>}
+              Ciudad de origen:
+              <select
+                {...register('departureCityId', { required: 'Ciudad de origen obligatoria' })}
+              >
+                <option value="">Seleccione una ciudad de origen</option>
+                {cities.map(city => (
+                  <option key={city.cityId} value={city.cityId}>{city.name}</option>
+                ))}
+              </select>
+              {errors.departureCityId && <span className="create-flight-error">{errors.departureCityId.message}</span>}
             </label>
 
             <label>
-              Hora de Salida:
+              Ciudad de destino:
+              <select
+                {...register('arrivalCityId', { required: 'Ciudad de destino obligatoria' })}
+              >
+                <option value="">Seleccione una ciudad de destino</option>
+                {cities.map(city => (
+                  <option key={city.cityId} value={city.cityId}>{city.name}</option>
+                ))}
+              </select>
+              {errors.arrivalCityId && <span className="create-flight-error">{errors.arrivalCityId.message}</span>}
+            </label>
+
+            <label>
+              Salida:
               <input
                 type="datetime-local"
-                name="departureTime"
-                value={updatedFlight.departureTime}
-                onChange={handleChange}
+                {...register('departureDateTime', { required: 'La hora de salida es obligatoria' })}
               />
-              {errors.departureTime && <span className="create-user-error">{errors.departureTime}</span>}
+              {errors.departureDateTime && <span className="create-flight-error">{errors.departureDateTime.message}</span>}
             </label>
 
             <label>
-              Hora de Llegada:
+              Llegada:
               <input
                 type="datetime-local"
-                name="arrivalTime"
-                value={updatedFlight.arrivalTime}
-                onChange={handleChange}
+                {...register('arrivalDateTime', { required: 'La hora de llegada es obligatoria' })}
               />
-              {errors.arrivalTime && <span className="create-user-error">{errors.arrivalTime}</span>}
+              {errors.arrivalDateTime && <span className="create-flight-error">{errors.arrivalDateTime.message}</span>}
             </label>
 
             <label>
-              Precio:
+              Duración (min):
               <input
                 type="number"
-                name="price"
-                value={updatedFlight.price}
-                onChange={handleChange}
+                {...register('durationMinutes', {
+                  required: 'La duración es obligatoria',
+                  valueAsNumber: true,
+                  min: { value: 1, message: 'La duración debe ser mayor a 0' }
+                })}
               />
-              {errors.price && <span className="create-user-error">{errors.price}</span>}
+              {errors.durationMinutes && <span className="create-flight-error">{errors.durationMinutes.message}</span>}
             </label>
 
-            <div className="create-user-modal-actions">
+            <label>
+              Logo:
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+            </label>
+
+            <div className="create-flight-modal-actions">
               <button type="submit">Actualizar</button>
               <button type="button" onClick={onClose}>Cancelar</button>
             </div>

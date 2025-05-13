@@ -29,6 +29,7 @@
   color: white;
   font-size: 15px;
   margin-right: 2%;
+  font-weight: bold;
 }
 
 .create-button:hover {
@@ -106,6 +107,7 @@
 .toggle-button {
   background-color: #404040;
   color: white;
+  font-weight: bold;
 }
 
 .toggle-button:hover {
@@ -115,6 +117,7 @@
 .edit-button {
   background-color: #5c6bc0;
   color: white;
+  font-weight: bold;
 }
 
 .edit-button:hover {
@@ -124,6 +127,7 @@
 .delete-button {
   background-color: #f44336;
   color: white;
+  font-weight: bold;
 }
 
 .delete-button:hover {

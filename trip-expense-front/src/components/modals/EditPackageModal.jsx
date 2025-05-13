@@ -1,140 +1,210 @@
-import React, { useState, useEffect } from 'react';
-import './EditUserModal.css';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import './CreatepackageModal.css'; 
 import api from '../../services/api';
 
 const EditPackageModal = ({ isOpen, onClose, onUpdate, packageToEdit }) => {
-  const [updatedPackage, setUpdatedPackage] = useState({
-    name: '',
-    description: '',
-    price: '',
-    image: '',
-  });
+  const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm();
+  const [cities, setCities] = useState([]);
+  const [packages, setPackages] = useState([]);
+  const [hotels, setHotels] = useState([]);
+  const [activities, setActivities] = useState([]);
+  const [imageUrl, setImageUrl] = useState('');
 
-  const [errors, setErrors] = useState({
-    name: '',
-    description: '',
-    price: '',
-    image: '',
-  });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [citiesRes, packagesRes, hotelsRes, activitiesRes] = await Promise.all([
+          api.get('/cities'),
+          api.get('/packages'),
+          api.get('/hotels'),
+          api.get('/activities'),
+        ]);
+
+        setCities(citiesRes.data || []);
+        setPackages(packagesRes.data || []);
+        setHotels(hotelsRes.data || []);
+        setActivities(activitiesRes.data || []);
+      } catch (error) {
+        console.error('Error al cargar datos:', error);
+      }
+    };
+
+    if (isOpen) fetchData();
+  }, [isOpen]);
 
   useEffect(() => {
     if (packageToEdit) {
-      setUpdatedPackage({
-        name: packageToEdit.name || '',
-        description: packageToEdit.description || '',
-        price: packageToEdit.price || '',
-        image: packageToEdit.image || '',
-      });
+      setValue('name', packageToEdit.name);
+      setValue('description', packageToEdit.description || '');
+      setValue('destinationCityId', packageToEdit.destination?.cityId || '');
+      setValue('basePrice', packageToEdit.basePrice);
+      setValue('durationDays', packageToEdit.durationDays);
+      setValue('includedpackageId', packageToEdit.includedpackage?.packageId || '');
+      setValue('includedHotelId', packageToEdit.includedHotel?.hotelId || '');
+      setValue('includedActivityIds', packageToEdit.includedActivities?.map(a => a.activityId.toString()) || []);
+      setValue('type', packageToEdit.type || '');
+      setImageUrl(packageToEdit.imageUrl || '');
     }
-  }, [packageToEdit]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUpdatedPackage((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
+  }, [packageToEdit, setValue]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setUpdatedPackage((prevState) => ({
-        ...prevState,
-        image: URL.createObjectURL(file),
-      }));
+      setImageUrl(URL.createObjectURL(file));
     }
   };
 
-  const validateForm = () => {
-    let formIsValid = true;
-    let errors = {};
+  const onSubmit = async (data) => {
+    try {
+      const payload = {
+        name: data.name,
+        description: data.description || '',
+        imageUrl: imageUrl,
+        destination: { cityId: parseInt(data.destinationCityId) },
+        basePrice: parseFloat(data.basePrice),
+        durationDays: parseInt(data.durationDays),
+        includedpackage: data.includedpackageId ? { packageId: parseInt(data.includedpackageId) } : null,
+        includedHotel: data.includedHotelId ? { hotelId: parseInt(data.includedHotelId) } : null,
+        includedActivities: data.includedActivityIds?.map(id => ({ activityId: parseInt(id) })) || [],
+        type: data.type,
+      };
 
-    if (!updatedPackage.name) {
-      formIsValid = false;
-      errors.name = 'El nombre es obligatorio';
-    }
-    if (!updatedPackage.description) {
-      formIsValid = false;
-      errors.description = 'La descripción es obligatoria';
-    }
-    if (!updatedPackage.price || isNaN(updatedPackage.price)) {
-      formIsValid = false;
-      errors.price = 'El precio es inválido';
-    }
-
-    setErrors(errors);
-    return formIsValid;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (validateForm()) {
-      try {
-        const response = await api.put(`/packages/${packageToEdit.id}`, updatedPackage);
-        onUpdate(response.data);
-        onClose();
-      } catch (error) {
-        console.error("Error al actualizar el paquete:", error);
-      }
+      const res = await api.put(`/packages/${packageToEdit.packageId}`, payload);
+      onUpdate(res.data);
+      reset();
+      setImageUrl('');
+      onClose();
+    } catch (error) {
+      console.error('Error al actualizar paquete:', error);
     }
   };
 
   return (
     isOpen && (
-      <div className="edit-user-modal-overlay">
-        <div className="edit-user-modal-container">
+      <div className="create-package-modal-overlay">
+        <div className="create-package-modal-container">
           <h2>Editar Paquete</h2>
-          <form onSubmit={handleSubmit} className="edit-user-modal-form">
+          <form onSubmit={handleSubmit(onSubmit)} className="create-package-modal-form">
+
             <label>
-              Nombre:
+              Nombre del paquete:
               <input
-                type="text"
-                name="name"
-                value={updatedPackage.name}
-                onChange={handleChange}
-                required
+                {...register('name', {
+                  required: 'El nombre es obligatorio',
+                  maxLength: { value: 100, message: 'Máximo 100 caracteres' }
+                })}
               />
-              {errors.name && <span className="edit-user-error">{errors.name}</span>}
+              {errors.name && <span className="create-package-error">{errors.name.message}</span>}
             </label>
 
             <label>
               Descripción:
               <textarea
-                name="description"
-                value={updatedPackage.description}
-                onChange={handleChange}
-                required
+                {...register('description', {
+                  required: 'La descripción es obligatoria',
+                  minLength: { value: 10, message: 'Mínimo 10 caracteres' },
+                  maxLength: { value: 500, message: 'Máximo 500 caracteres' }
+                })}
               />
-              {errors.description && <span className="edit-user-error">{errors.description}</span>}
-            </label>
-
-            <label>
-              Precio:
-              <input
-                type="number"
-                name="price"
-                value={updatedPackage.price}
-                onChange={handleChange}
-                required
-              />
-              {errors.price && <span className="edit-user-error">{errors.price}</span>}
+              {errors.description && <span className="create-package-error">{errors.description.message}</span>}
             </label>
 
             <label>
               Imagen:
-              <input
-                type="file"
-                name="image"
-                onChange={handleImageChange}
-              />
+              <input type="file" accept="image/*" onChange={handleImageChange} />
             </label>
 
-            <div className="edit-user-modal-actions">
+            <label>
+              Ciudad destino:
+              <select {...register('destinationCityId', { required: 'Ciudad destino obligatoria' })}>
+                <option value="">Seleccione una ciudad</option>
+                {cities.map(city => (
+                  <option key={city.cityId} value={city.cityId}>{city.name}</option>
+                ))}
+              </select>
+              {errors.destinationCityId && <span className="create-package-error">{errors.destinationCityId.message}</span>}
+            </label>
+
+            <label>
+              Precio base:
+              <input
+                type="number"
+                step="0.01"
+                {...register('basePrice', {
+                  required: 'El precio es obligatorio',
+                  min: { value: 0, message: 'Debe ser positivo' }
+                })}
+              />
+              {errors.basePrice && <span className="create-package-error">{errors.basePrice.message}</span>}
+            </label>
+
+            <label>
+              Duración (días):
+              <input
+                type="number"
+                {...register('durationDays', {
+                  required: 'Duración obligatoria',
+                  min: { value: 1, message: 'Mínimo 1 día' }
+                })}
+              />
+              {errors.durationDays && <span className="create-package-error">{errors.durationDays.message}</span>}
+            </label>
+
+            <label>
+              Vuelo incluido:
+              <select {...register('includedpackageId')}>
+                <option value="">Seleccione un vuelo</option>
+                {packages.map(f => (
+                  <option key={f.packageId} value={f.packageId}>
+                    {f.airline} - {f.packageNumber}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label>
+              Hotel incluido:
+              <select {...register('includedHotelId')}>
+                <option value="">Seleccione un hotel</option>
+                {hotels.map(h => (
+                  <option key={h.hotelId} value={h.hotelId}>
+                    {h.name} ({h.stars} estrellas)
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label>
+              Actividades incluidas:
+              <select multiple {...register('includedActivityIds')}>
+                {activities.map(a => (
+                  <option key={a.activityId} value={a.activityId}>
+                    {a.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label>
+              Tipo de paquete:
+              <select {...register('type', { required: 'Tipo obligatorio' })}>
+                <option value="">Seleccione un tipo</option>
+                <option value="Todo incluído">Todo incluido</option>
+                <option value="Familiar">Familiar</option>
+                <option value="Romántico">Romántico</option>
+                <option value="Aventura">Aventura</option>
+                <option value="Lujo">Lujo</option>
+                <option value="Negocios">Negocios</option>
+              </select>
+              {errors.type && <span className="create-package-error">{errors.type.message}</span>}
+            </label>
+
+            <div className="create-package-modal-actions">
               <button type="submit">Actualizar</button>
               <button type="button" onClick={onClose}>Cancelar</button>
             </div>
+
           </form>
         </div>
       </div>

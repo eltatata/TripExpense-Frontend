@@ -39,8 +39,14 @@ h2 {
   display: block;
   font-family: 'Montserrat', sans-serif;
 }
-
-.edit-flight-modal-form input {
+input[type="datetime-local"] {
+  cursor: pointer;
+  padding: 0.5rem;
+  width: 100%;
+  font-size: 1rem;
+}
+.edit-flight-modal-form input,
+.edit-flight-modal-form select {
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -68,6 +74,7 @@ h2 {
   cursor: pointer;
   flex: 1;
   margin: 0 5px;
+  font-weight: bold;
 }
 
 .edit-flight-modal-actions button[type="submit"] {
