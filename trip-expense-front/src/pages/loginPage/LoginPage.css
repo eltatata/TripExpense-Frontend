@@ -64,13 +64,6 @@
   text-align: left;
 }
 
-.lp-form-container h2{
-  font-size: 30px;
-  color: #404040;
-  margin-bottom: 30px;
-  text-align: left;
-}
-
 .lp-input-group {
   display: flex;
   gap: 10px;
