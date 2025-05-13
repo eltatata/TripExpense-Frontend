@@ -22,21 +22,29 @@ const LoginPage = () => {
   }, []);
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      const response = await api.post("/auth/login", {
-        email,
-        password,
-      });
+  try {
+    const response = await api.post("/auth/login", {
+      email,
+      password,
+    });
 
-      if (response.status === 200) {
+    if (response.status === 200) {
+      const user = response.data.userDTO;
+      
+      localStorage.setItem("user", JSON.stringify(user));
+
+      if (user.role === "ADMIN") {
+        navigate("/admin");
+      } else {
         navigate("/home");
       }
-    } catch (error) {
-        console.error('Error al iniciar sesión: ', error)
     }
-  };
+  } catch (error) {
+    console.error("Error al iniciar sesión: ", error);
+  }
+};
 
   return (
     <div className="lp-page">
@@ -56,7 +64,7 @@ const LoginPage = () => {
 
         <div className="lp-form-container">
           <h2>Iniciar Sesión</h2>
-          <p>Ingresa tus datos para acceder.</p>
+          <p>Ingresa tus datos para acceder</p>
           <form>
             <div className="lp-input-group">
               <input type="email" name="email" placeholder="Correo electrónico" value={email}

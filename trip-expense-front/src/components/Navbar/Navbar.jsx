@@ -1,31 +1,43 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import "./Navbar.css";
-import logo from "../../assets/TripExpenseLogo.png";
+import logo from "../../assets/LogoTripExpense1.jpg";
 
-const Navbar = () => {
-  const navigate = useNavigate(); 
+const Navbar = ({ isAdmin = false }) => {
+  const navigate = useNavigate();
+  const isAuthenticated = localStorage.getItem("user");
 
-  const handleLoginClick = () => {
-    navigate("/login"); 
-  };
-
-  const handleSignupClick = () => {
-    navigate("/signup"); 
+  const handleLoginClick = () => navigate("/login");
+  const handleSignupClick = () => navigate("/signup");
+  const handleLogoutClick = () => {
+    localStorage.removeItem("user");
+    navigate("/login");
   };
 
   return (
-    <nav className="navbar">
-      <div className="navbar__logo">
+    <nav className={`navbar ${isAdmin ? "admin-navbar" : ""}`}>
+      <div className="navbar__logo" onClick={() => navigate("/")}>
         <img src={logo} alt="TripExpense Logo" />
       </div>
       <div className="nav__buttons">
-        <button className="nav__login__button" onClick={handleLoginClick}>
-          Iniciar Sesión
-        </button>
-        <button className="nav__signup__button" onClick={handleSignupClick}>
-          Registrarse
-        </button>
+        {isAuthenticated && isAdmin ? (
+          <button className="nav__logout__button" onClick={handleLogoutClick}>
+            Cerrar Sesión
+          </button>
+        ) : !isAuthenticated ? (
+          <>
+            <button className="nav__login__button" onClick={handleLoginClick}>
+              Iniciar Sesión
+            </button>
+            <button className="nav__signup__button" onClick={handleSignupClick}>
+              Registrarse
+            </button>
+          </>
+        ) : (
+          <button className="nav__logout__button" onClick={handleLogoutClick}>
+            Cerrar Sesión
+          </button>
+        )}
       </div>
     </nav>
   );

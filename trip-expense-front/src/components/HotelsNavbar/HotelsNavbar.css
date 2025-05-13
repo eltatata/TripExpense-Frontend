@@ -1,17 +1,19 @@
 .hnav-container {
     display: flex;
+    position: fixed;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 32px;
-    width: 100%;
     background-color: white;
-    position: relative;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    height: 60px;
+    z-index: 1000;
 }
 
-.hnav-flightshotels{
+.hnav-flightshotels {
     left: 50%;
 }
+
 .hnav-flightshotels,
 .hnav-user {
     display: flex;
@@ -21,6 +23,7 @@
 
 .hnav-logo {
     position: absolute;
+    display: flex;
     left: 50%;
     transform: translateX(-50%);
     font-size: 24px;
