@@ -81,7 +81,7 @@ const SignUpPage = () => {
 
                 <div className="su-form-container">
                     <h2>Regístrate</h2>
-                    <p>Completa el formulario para crear tu cuenta.</p>
+                    <p>Completa el formulario para crear tu cuenta</p>
 
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="su-input-group">

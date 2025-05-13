@@ -83,7 +83,7 @@ const Cities = () => {
                     <p><strong>Descripción:</strong> {city.description}</p>
                     <p><strong>Idioma:</strong> {city.language}</p>
                     <p><strong>Moneda:</strong> {city.currency}</p>
-                    <p><strong>Clima:</strong> {city.weather}</p>
+                    <p><strong>Clima:</strong> {city.climate}</p>
                     <p><strong>Mejor época para visitar:</strong> {city.bestTimeToVisit}</p>
                   </div>
                 )}

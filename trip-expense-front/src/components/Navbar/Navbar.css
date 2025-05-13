@@ -19,7 +19,7 @@
 }
 
 .navbar__logo img {
-  height: 50px;
+  height: 60px;
   width: auto;
   cursor: pointer;
   border-radius: 5px;
@@ -33,19 +33,20 @@
   gap: 10px;
 }
 
-.nav__login__button {
+.nav__login__button,
+.nav__logout__button {
   color: white;
   background: #404040;
   border: none;
   font-size: 16px;
   cursor: pointer;
   padding: 8px 15px;
-  border: none;
   border-radius: 5px;
   transition: 0.3s;
 }
 
-.nav__login__button:hover {
+.nav__login__button:hover,
+.nav__logout__button:hover {
   background-color: #595959;
 }
 
@@ -64,6 +65,19 @@
   background-color: #e6e6e6;
 }
 
+.admin-navbar {
+  width: calc(100% - 300px); 
+  margin-left: 0;
+  justify-content: flex-start;
+  padding-left: 5px;
+}
+
+.admin-navbar .navbar__logo {
+  position: relative;
+  left: 0;
+  transform: none;
+}
+
 @media (max-width: 768px) {
   .navbar {
     padding: 10px 15px;
@@ -78,30 +92,15 @@
     height: 30px;
   }
 
-  .nav__login__button,
-    position: absolute;
-    right: 20.5px; 
-    display: flex;
-    align-items: center;
+  .nav__buttons {
+    right: 20.5px;
     gap: 10px;
   }
 
-  
-  
-  .nav__login__button , .nav__logout__button{
-    color: white;
-    background: #404040;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    transition: 0.3s;
-  }
-
-  .nav__login__button:hover, .nav__logout__button:hover{
-    background-color: #595959;
+  .nav__login__button,
+  .nav__logout__button {
+    font-size: 14px;
+    padding: 7px 13px;
   }
 
   .nav__signup__button {

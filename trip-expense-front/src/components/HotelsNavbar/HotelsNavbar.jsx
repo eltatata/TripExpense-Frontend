@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Logo from "../../assets/TripExpenseLogo.png";
+import Logo from "../../assets/LogoTripExpense1.jpg";
 import Foto from "../../../public/assets/FotoPerfil1.png";
 import "./HotelsNavbar.css";
 
