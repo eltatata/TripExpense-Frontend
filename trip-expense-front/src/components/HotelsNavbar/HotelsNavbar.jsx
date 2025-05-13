@@ -1,28 +1,28 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Logo from "../../assets/LogoTripExpense1.jpg";
+import Logo from "../../assets/TripExpenseLogo.png";
 import Foto from "../../../public/assets/FotoPerfil1.png";
 import "./HotelsNavbar.css";
 
 const HotelsNavbar = () => {
     const navigate = useNavigate();
 
-    const handleLogoClick = () => {
-        navigate("/");
+    const handleLoginClick = () => {
+        navigate("/login");
     };
 
-    const handleFlightsClick = () => {
-        navigate("/flights");
+    const handleSignupClick = () => {
+        navigate("/signup");
     };
 
     return (
         <nav className="hnav-container">
             <div className="hnav-flightshotels">
-                <button className="hnav-button" onClick={handleFlightsClick}> Encuentra Vuelos </button>
+                <button className="hnav-button"> Encuentra Vuelos </button>
                 <button className="hnav-button active"> Encuentra Hoteles </button>
             </div>
 
-            <div className="hnav-logo" onClick={handleLogoClick}>
+            <div className="hnav-logo">
                 <img src={Logo} alt="TripExpense Logo" />
             </div>
 
@@ -32,7 +32,7 @@ const HotelsNavbar = () => {
                 <div className="hnav-profile">
                     <button className="hnav-pbutton">
                         <img src={Foto} alt="User" className="hnav-pimage" />
-                        <span className="hnav-pname">Perfil</span>
+                        <span className="hnav-pname">Kevin S.</span>
                     </button>
                 </div>
             </div>

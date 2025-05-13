@@ -52,8 +52,6 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (!validateForm()) return;
-
     try {
       const response = await api.post("/auth/login", {
         email,
@@ -67,7 +65,9 @@ const LoginPage = () => {
       }
     } catch (error) {
       console.error("Error al iniciar sesión: ", error);
-    }
+        navigate("/home");
+      }
+    } 
   };
 
   return (
@@ -89,6 +89,7 @@ const LoginPage = () => {
         <div className="lp-form-container">
           <h2>Iniciar Sesión</h2>
           <p>Ingresa tus datos para acceder.</p>
+
           <form onSubmit={handleLogin}>
 
             <div className="lp-input-group">

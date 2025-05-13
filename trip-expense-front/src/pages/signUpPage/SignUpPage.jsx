@@ -1,26 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
 import "./SignUpPage.css";
 import image1 from "../../assets/image1.jpg";
 import image2 from "../../assets/image2.jpg";
 import image3 from "../../assets/image3.jpg";
 import api from "../../services/api";
+import { useNavigate } from "react-router-dom";
 
 const images = [image1, image2, image3];
 
 const SignUpPage = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [errorMessage, setErrorMessage] = useState("");
-    const navigate = useNavigate();
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [phone, setPhone] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-    const {
-        register,
-        handleSubmit,
-        reset,
-        setValue,
-        formState: { errors }
-    } = useForm({ mode: "onChange" });
+    const navigate = useNavigate();
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -41,11 +38,12 @@ const SignUpPage = () => {
             if (error.response && error.response.status === 409) {
                 setErrorMessage("*El correo ya está registrado.");
             } else {
-                setErrorMessage("Error inesperado. Intenta de nuevo.");
+              setErrorMessage("Error inesperado. Intenta de nuevo.");
             }
             console.error("Error al registrarse: ", error);
-        }
-    };
+          }
+      };
+
 
     return (
         <div className="su-page">
@@ -65,9 +63,8 @@ const SignUpPage = () => {
 
                 <div className="su-form-container">
                     <h2>Regístrate</h2>
-                    <p>Completa el formulario para crear tu cuenta</p>
-
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <p>Completa el formulario para crear tu cuenta.</p>
+                    <form>
                         <div className="su-input-group">
                             <input
                                 type="text"
@@ -114,9 +111,10 @@ const SignUpPage = () => {
                                 className={errors.lastName ? "error" : ""}
                             />
                             {errors.lastName && <p className="su-error">{errors.lastName.message}</p>}
-                        </div>
 
+                        </div>
                         <div className="su-input-group">
+
                             <input
                                 type="text"
                                 {...register("phone", {
@@ -130,9 +128,10 @@ const SignUpPage = () => {
                                 className={errors.phone ? "error" : ""}
                             />
                             {errors.phone && <p className="su-error">{errors.phone.message}</p>}
-                        </div>
 
+                        </div>
                         <div className="su-input-group">
+
                             <input
                                 type="email"
                                 {...register("email", {
@@ -146,9 +145,10 @@ const SignUpPage = () => {
                                 className={errors.email ? "error" : ""}
                             />
                             {errors.email && <p className="su-error">{errors.email.message}</p>}
-                        </div>
 
+                        </div>
                         <div className="su-input-group">
+
                             <input
                                 type="password"
                                 {...register("password", {
@@ -170,11 +170,9 @@ const SignUpPage = () => {
                             Crear cuenta
                         </button>
 
+
                         <p className="su-login-text">
-                            ¿Ya tienes una cuenta?{" "}
-                            <a href="/login" className="su-login-link">
-                                Iniciar sesión
-                            </a>
+                            ¿Ya tienes una cuenta? <a href="/login" className="su-login-link">Iniciar sesión</a>
                         </p>
                     </form>
                 </div>
