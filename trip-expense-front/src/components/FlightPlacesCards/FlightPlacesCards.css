@@ -33,4 +33,17 @@
     margin-top: 0;
   }
   
- 
+  .pc-button {
+    background-color: #E38C4D;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    color: white;
+    font-size: 18px;
+  }
+  
+  .pc-button:hover {
+    background-color: #CC7433;
+  }

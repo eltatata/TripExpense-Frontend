@@ -129,14 +129,3 @@
     padding: 20px;
   }
 }
-.lp-input-group input.error {
-  border: 1px solid #E57373;
-  background-color: #FFF0F0;
-}
-
-.lp-error-message {
-  color: #E57373;
-  font-size: 12px;
-  margin-top: -15px;
-  margin-bottom: 10px;
-}
