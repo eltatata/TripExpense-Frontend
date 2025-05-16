@@ -15,13 +15,6 @@
     align-items: center;
     text-align: left;
   }
-
-  .flights-header {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 15px;
-    }
   
   .flights-header h2 {
     font-size: 28px;

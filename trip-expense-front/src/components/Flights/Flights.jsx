@@ -24,7 +24,7 @@ const Flights = () => {
                     <h2>Vuelos</h2>
                     <p>Tu próxima aventura empieza con el vuelo perfecto.</p>
                 </div>
-                
+                <button className="flights-button" onClick={handleSignupClick}><strong>Descubre más</strong></button>
             </div>
             <div className="flights-cards">
                 {flights.map((destination, index) => (
